@@ -1,1 +1,4 @@
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
+A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csprojResolveAssemblyReference.cache
+A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.Properties.Resources.resources
+A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csproj.GenerateResource.Cache
