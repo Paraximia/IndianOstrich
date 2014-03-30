@@ -1,4 +1,8 @@
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
+<<<<<<< HEAD
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csprojResolveAssemblyReference.cache
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.Properties.Resources.resources
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csproj.GenerateResource.Cache
+=======
+C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
+>>>>>>> 08bcf7aa03d6cad0090f786bcbf41fd463d58b3e
