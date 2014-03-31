@@ -11,7 +11,7 @@ namespace IndianOstrich
     {
         public Image img { get; set; }
 
-        public void Redirect { }
+        public void Redirect() { }
 
         public void InOut (Object KeyValue)
         {
