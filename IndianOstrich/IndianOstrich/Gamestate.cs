@@ -14,11 +14,14 @@ namespace IndianOstrich
     {
         Hashtable state;
         Screens[] screens;
-        BasePlayer player1();
-        BasePlayer player2();
+        BasePlayer player1;
+        BasePlayer player2;
 
-        public void Start()
+        //character strings are which character each player chose
+        public Gamestate(string character1, string character2)
         {
+            player1 = new BasePlayer(true);
+            player2 = new BasePlayer(false);
         }
 
         public void End()
@@ -30,7 +33,7 @@ namespace IndianOstrich
         }
 
         //overload update for mouseargs
-        public void Update(KeyboardEventArgs e)
+        public void Update(MouseButtonEventArgs e)
         {
         }
     }

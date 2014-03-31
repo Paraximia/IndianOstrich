@@ -14,3 +14,10 @@ C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\bin
 C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.pdb
 C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.exe
 C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.pdb
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.exe
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.pdb
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csprojResolveAssemblyReference.cache
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.Properties.Resources.resources
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csproj.GenerateResource.Cache
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.pdb
