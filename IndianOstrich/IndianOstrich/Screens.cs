@@ -7,11 +7,11 @@ using System.Drawing;
 
 namespace IndianOstrich
 {
-    abstract class Screen
+    abstract class Screens
     {
         public Image img { get; set; }
 
-        public void Redirect { }
+        public void Redirect() { }
 
         public void InOut (Object KeyValue)
         {
