@@ -5,13 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Globalization;
+using SdlDotNet.Core;
+using SdlDotNet.Input;
 
 namespace IndianOstrich
 {
     class Gamestate
     {
-        Screens[] screens;
         Hashtable state;
+        Screens[] screens;
+        BasePlayer player1();
+        BasePlayer player2();
 
         public void Start()
         {
@@ -21,7 +25,12 @@ namespace IndianOstrich
         {
         }
 
-        public void Update()
+        public void Update(KeyboardEventArgs e)
+        {
+        }
+
+        //overload update for mouseargs
+        public void Update(KeyboardEventArgs e)
         {
         }
     }
