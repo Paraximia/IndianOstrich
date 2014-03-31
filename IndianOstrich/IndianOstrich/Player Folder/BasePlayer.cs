@@ -43,18 +43,17 @@ namespace IndianOstrich
 
         public void Kick()
         {
-
+            
         }
 
         public void Punch()
         {
-
+            
         }
 
         public void Jump()
         {
-            yVel -= 1;
+            yVel -= 1;   
         }
-
     }
 }
