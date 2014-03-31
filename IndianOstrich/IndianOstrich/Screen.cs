@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace IndianOstrich
 {
-    abstract class Screen
+    abstract class Screens
     {
         public Image img { get; set; }
 

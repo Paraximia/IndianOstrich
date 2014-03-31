@@ -6,3 +6,4 @@ A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\
 =======
 C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
 >>>>>>> 08bcf7aa03d6cad0090f786bcbf41fd463d58b3e
+C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
