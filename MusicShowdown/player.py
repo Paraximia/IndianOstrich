@@ -35,6 +35,8 @@ class Player(pygame.sprite.Sprite):
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_UP ):
 			self.yVel += self.rect.w/4
 
+			#down events should be crouch not downward movement
+			
 		#deal with down events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN ):
 			self.yVel += self.rect.w/4
