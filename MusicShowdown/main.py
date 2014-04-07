@@ -24,11 +24,20 @@ def main():
 	#initialise sprites and render it
 	player = Player("data/foo.png") 
 
-	#a minion object
+	#initialize minion objects here
 	minion1 = Minion("data/moo.png")
+	#minion list
+	minions = [minion1]
+
+	#initialize prop objects here
+	prop1 = Prop("data/poo.png")
+	#prop list
+	props = [prop1]
 
 	#renders all the sprites
-	allsprites = pygame.sprite.RenderPlain(player)
+	playersprite = pygame.sprite.RenderPlain(player)
+	minionsprites = pygame.sprite.RenderPlain(minions)
+	propsprites = pygame.sprite.RenderPlain(props)
 
 	#initialise clock
 	clock = pygame.time.Clock()
@@ -47,10 +56,13 @@ def main():
 		#check for collisions
 		#TODO COLLISION CHECK
 		#update sprites
-		allsprites.update()
-		minion1.update(player)
+		playersprite.update()
+		minionsprites.update(player)
+		propsprites.update()
 		#draw sprites
-		allsprites.draw(screen)
+		playersprite.draw(screen)
+		minionsprites.draw(screen)
+		propsprites.draw(screen)
 		pygame.display.flip()
 
 def setCamera(player):
