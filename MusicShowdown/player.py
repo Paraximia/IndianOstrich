@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
 			#reset the animation
 			self.frame = 0
 		#looping
-		if( self.frame >= 2):
+		if( self.frame >= 4):
 			self.frame = 0
 
 		#check status and change image
@@ -76,10 +76,9 @@ class Player(pygame.sprite.Sprite):
 
 		self.sheet.set_clip( pygame.Rect( self.playerW*2, 0, self.playerW, self.playerH) )
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
-
-		#4th animation
-		#self.sheet.set_clip( pygame.Rect( self.playerW*3, 0, self.playerW, self.playerH) )
-		#self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+		
+		self.sheet.set_clip( pygame.Rect( self.playerW*3, 0, self.playerW, self.playerH) )
+		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
 		#get all the leftwalks
@@ -91,10 +90,9 @@ class Player(pygame.sprite.Sprite):
 
 		self.sheet.set_clip( pygame.Rect( self.playerW*2, self.playerH, self.playerW, self.playerH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
-
-		#4th animation
-		#self.sheet.set_clip( pygame.Rect( self.playerW*3, self.playerH, self.playerW, self.playerH) )
-		#self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+		
+		self.sheet.set_clip( pygame.Rect( self.playerW*3, self.playerH, self.playerW, self.playerH) )
+		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
 
@@ -102,15 +100,15 @@ class Player(pygame.sprite.Sprite):
 	def handleInput(self, event):
 		#deal with left events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT ):
-			self.xVel -= self.rect.w/8
+			self.xVel -= self.rect.w/4
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_LEFT ):
-			self.xVel += self.rect.w/8
+			self.xVel += self.rect.w/4
 
 		#deal with right events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT ):
-			self.xVel += self.rect.w/8
+			self.xVel += self.rect.w/4
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_RIGHT ):
-			self.xVel -= self.rect.w/8
+			self.xVel -= self.rect.w/4
 
 		#deal with up events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_UP ):

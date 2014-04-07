@@ -4,7 +4,7 @@ from minion import Minion
 from prop import Prop
 
 #constants -- using caps and underscores to differentiate them from other vars
-BG_WIDTH = 30000
+BG_WIDTH = 3000
 BG_HEIGHT = 960
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
@@ -47,7 +47,7 @@ def main():
 
 	running = True
 	while running:
-		clock.tick(30) #60 fps
+		clock.tick(60) #60 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
