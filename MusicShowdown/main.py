@@ -5,12 +5,12 @@ from prop import Prop
 
 #constants -- using caps and underscores to differentiate them from other vars
 #get the background
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
 bg = pygame.image.load("data/level1.png")
+pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 BG_WIDTH = bg.get_rect().w
 BG_HEIGHT = bg.get_rect().h
-#coordinates of where the ground is
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 320
 PLAYERW = 64
 PLAYERH = 128
 #initialise the camera
@@ -56,7 +56,7 @@ def main():
 				player.handleInput(event)
 		setCamera(player)
 		#draw bg
-		screen.fill(pygame.Color(255,255,255))
+		screen.fill(pygame.Color(0,0,0))
 		bg.set_clip( pygame.Rect(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT) )
 		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
 		#check for collisions
@@ -73,8 +73,8 @@ def main():
 
 def setCamera(player):
 	#center it over player
-	camera.x = ( player.rect.x + player.rect.w/ 2 ) - ( SCREEN_WIDTH/ 2 )
-	camera.y = ( (player.rect.y + player.rect.h/2) - (SCREEN_HEIGHT/2) ) 
+	camera.x = (player.rect.x + player.rect.w/ 2) - (SCREEN_WIDTH/ 2)
+	camera.y = (player.rect.y + player.rect.h/2)  - (SCREEN_HEIGHT/2)  
 
 	#keep it in bounds
 	if( camera.x < 0 ):
