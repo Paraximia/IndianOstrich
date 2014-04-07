@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, imagepath, playerW, playerH, levelW, levelH):
+	def __init__(self, imagepath, playerW, playerH, levelW, levelH, scaleFactor):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
 		self.playerW = playerW
@@ -11,9 +11,11 @@ class Player(pygame.sprite.Sprite):
 
 		#initial image
 		self.sheet.set_clip( pygame.Rect(0, 0, playerW, playerH) )
-		self.image = self.sheet.subsurface( self.sheet.get_clip() )
+		imageOrig = self.sheet.subsurface( self.sheet.get_clip() )
+		self.image = pygame.transform.scale(imageOrig, (imageOrig.get_rect().w*scaleFactor,
+			imageOrig.get_rect().h*scaleFactor))
 		self.rect = self.image.get_rect()
-		self.rect.y = levelH - playerH
+		self.rect.y = levelH - playerH - 150
 
 		#velocitites
 		self.xVel = 0

@@ -7,8 +7,9 @@ from prop import Prop
 #get the background
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
+scaleFactor = 3
 bg = pygame.image.load("data/level1.png")
-pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+bg = pygame.transform.scale(bg, (bg.get_rect().w*scaleFactor, bg.get_rect().h*scaleFactor))
 BG_WIDTH = bg.get_rect().w
 BG_HEIGHT = bg.get_rect().h
 PLAYERW = 64
@@ -26,7 +27,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT) 
+	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT, scaleFactor=1) 
 	setCamera(player)
 
 	#initialize minion objects here
@@ -47,6 +48,7 @@ def main():
 	#initialise clock
 	clock = pygame.time.Clock()
 
+	screen.fill(pygame.Color(0,0,0))
 	running = True
 	while running:
 		clock.tick(60) #60 fps
@@ -57,7 +59,6 @@ def main():
 				player.handleInput(event)
 		setCamera(player)
 		#draw bg
-		screen.fill(pygame.Color(0,0,0))
 		bg.set_clip( pygame.Rect(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT) )
 		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
 		#check for collisions
