@@ -6,6 +6,8 @@ from prop import Prop
 #constants -- using caps and underscores to differentiate them from other vars
 BG_WIDTH = 3000
 BG_HEIGHT = 960
+#coordinates of where the ground is
+BG_GROUND = 355
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 PLAYERW = 64
@@ -25,7 +27,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT) 
+	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT, BG_GROUND) 
 
 	#initialize minion objects here
 	minion1 = Minion("data/boo.png")

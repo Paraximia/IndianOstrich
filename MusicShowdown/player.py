@@ -1,26 +1,30 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, imagepath, playerW, playerH, levelW, levelH):
+	def __init__(self, imagepath, playerW, playerH, levelW, levelH, levelG):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
 		self.playerW = playerW
 		self.playerH = playerH
 		self.levelW = levelW
 		self.levelH = levelH
+		self.levelG = levelG
 
 		#initial image
 		self.sheet.set_clip( pygame.Rect(0, 0, playerW, playerH) )
 		self.image = self.sheet.subsurface( self.sheet.get_clip() )
 		self.rect = self.image.get_rect()
+		self.rect.x = 41
+		self.rect.y = levelG
 
 		#velocitites
 		self.xVel = 0
 		self.yVel = 0
+		#jump state jumping = j, standing = s
+		self.jump = 's'
 
 		#left = l or right = r
 		self.status = 'r'
-		
 		#current frame
 		self.frame = 0
 		self.leftWalk = []
@@ -65,7 +69,7 @@ class Player(pygame.sprite.Sprite):
 			self.rect.x -= self.xVel
 
 		self.rect.y += self.yVel
-		if( (self.rect.y < 0 ) or (self.rect.y + self.rect.h > self.levelH) ):
+		if( (self.rect.y < 0 ) or (self.rect.y + self.rect.h > self.levelG + 2) ):
 			self.rect.x -= self.yVel
 
 	def getClips(self):
@@ -119,7 +123,7 @@ class Player(pygame.sprite.Sprite):
 			self.yVel += self.rect.w/8
 
 		#deal with down events
-		if( event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN ):
+		"""if( event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN ):
 			self.yVel += self.rect.w/8
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_DOWN ):
-			self.yVel -= self.rect.w/8
+			self.yVel -= self.rect.w/8"""
