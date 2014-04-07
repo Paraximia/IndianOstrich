@@ -19,13 +19,13 @@ def main():
 	bg = pygame.image.load("data/level1.png")
 
 	#caption
-	pygame.display.set_caption("This is a game we made it's cool")
+	pygame.display.set_caption("This is a game we made, it's cool")
 
 	#create screen
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/player.png", PLAYERW, PLAYERH) 
+	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT) 
 
 	#initialize minion objects here
 	minion1 = Minion("data/boo.png")
@@ -47,7 +47,7 @@ def main():
 
 	running = True
 	while running:
-		clock.tick(60) #60 fps
+		clock.tick(30) #60 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
