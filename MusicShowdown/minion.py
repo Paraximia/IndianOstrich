@@ -8,7 +8,7 @@ class Minion(pygame.sprite.Sprite):
 		self.xVel = 0
 		self.yVel = 0
 
-	def update(self, Player player):
+	def update(self, player):
 		self.chase(player)
 		self.move()
 
@@ -16,8 +16,8 @@ class Minion(pygame.sprite.Sprite):
 		self.rect.x += self.xVel
 		self.rect.y += self.yVel
 
-	def chase(self, Player player):
-		if (player.x < self.x):
+	def chase(self, player):
+		if (player.rect.x < self.rect.x):
 			self.xVel -= self.rect.w/4
-		elif(player.x > self.x):
+		elif(player.rect.x > self.rect.x):
 			self.xVel += self.rect.w/4

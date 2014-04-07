@@ -1,12 +1,15 @@
 import pygame
 from player import Player
+from minion import Minion
+from prop import Prop
 
 #constants -- using caps and underscores to differentiate them from other vars
 BG_WIDTH = 30000
 BG_HEIGHT = 960
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
-
+PLAYERW = 64
+PLAYERH = 205
 #initialise the camera
 camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -22,7 +25,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/foo.png") 
+	player = Player("data/foo.png", PLAYERW, PLAYERH) 
 
 	#initialize minion objects here
 	minion1 = Minion("data/moo.png")
