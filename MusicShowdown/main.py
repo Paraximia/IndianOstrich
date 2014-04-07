@@ -47,7 +47,7 @@ def main():
 
 	running = True
 	while running:
-		clock.tick(12) #60 fps
+		clock.tick(60) #60 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
@@ -56,7 +56,8 @@ def main():
 		setCamera(player)
 		#draw bg
 		screen.fill(pygame.Color(255,255,255))
-		screen.blit(bg, (0,0), (camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT))
+		bg.set_clip( pygame.Rect(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT) )
+		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
 		#check for collisions
 		#TODO COLLISION CHECK
 		#update sprites
@@ -64,15 +65,15 @@ def main():
 		minionsprites.update(player)
 		propsprites.update()
 		#draw sprites
-		playersprite.draw(screen)
+		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		minionsprites.draw(screen)
 		propsprites.draw(screen)
 		pygame.display.flip()
 
 def setCamera(player):
 	#center it over player
-	camera.x = ( (player.rect.x + player.rect.w)/ 2 ) - ( SCREEN_WIDTH / 2 )
-	camera.y = ( (player.rect.y + player.rect.h)/ 2 ) - ( SCREEN_HEIGHT/ 2 )
+	camera.x = ( player.rect.x + player.rect.w/ 2 ) - ( SCREEN_WIDTH/ 2 )
+	#camera.y = ( (player.rect.y + player.rect.h)/ 2 ) - ( SCREEN_HEIGHT/ 2 )
 
 	#keep it in bounds
 	if( camera.x < 0 ):
