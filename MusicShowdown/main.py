@@ -25,7 +25,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/foo.png", PLAYERW, PLAYERH) 
+	player = Player("data/player.png", PLAYERW, PLAYERH) 
 
 	#initialize minion objects here
 	minion1 = Minion("data/moo.png")
