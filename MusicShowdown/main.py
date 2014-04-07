@@ -28,7 +28,7 @@ def main():
 	player = Player("data/player.png", PLAYERW, PLAYERH) 
 
 	#initialize minion objects here
-	minion1 = Minion("data/moo.png")
+	minion1 = Minion("data/boo.png")
 	#minion list
 	minions = [minion1]
 
@@ -55,6 +55,7 @@ def main():
 				player.handleInput(event)
 		setCamera(player)
 		#draw bg
+		screen.fill(pygame.Color(255,255,255))
 		screen.blit(bg, (0,0), (camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT))
 		#check for collisions
 		#TODO COLLISION CHECK

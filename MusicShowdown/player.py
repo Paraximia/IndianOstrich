@@ -48,8 +48,10 @@ class Player(pygame.sprite.Sprite):
 		#check status and change image
 		if( self.status == 'r' ):
 			self.image = self.rightWalk[self.frame]
+			self.rect = self.image.get_rect()
 		elif( self.status == 'l' ):
 			self.image = self.leftWalk[self.frame]
+			self.rect = self.image.get_rect()
 		self.move()
 
 	def move(self):
