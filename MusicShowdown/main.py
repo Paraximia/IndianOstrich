@@ -73,7 +73,7 @@ def main():
 def setCamera(player):
 	#center it over player
 	camera.x = ( player.rect.x + player.rect.w/ 2 ) - ( SCREEN_WIDTH/ 2 )
-	#camera.y = ( (player.rect.y + player.rect.h)/ 2 ) - ( SCREEN_HEIGHT/ 2 )
+	camera.y = ( (player.rect.y + player.rect.h)/ 2 ) - ( SCREEN_HEIGHT/ 2 )
 
 	#keep it in bounds
 	if( camera.x < 0 ):
@@ -83,7 +83,7 @@ def setCamera(player):
 		camera.y = 0
 
 	if( camera.x > BG_WIDTH - camera.w ):
-		camera.x = LEVEL_WIDTH - camera.w
+		camera.x = BG_WIDTH - camera.w
 
 	if( camera.y > BG_HEIGHT - camera.h ):
 		camera.y = BG_HEIGHT - camera.h

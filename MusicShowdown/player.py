@@ -65,6 +65,8 @@ class Player(pygame.sprite.Sprite):
 			self.rect.x -= self.xVel
 
 		self.rect.y += self.yVel
+		if( (self.rect.y < 0 ) or (self.rect.y + self.rect.h > self.levelH) ):
+			self.rect.x -= self.yVel
 
 	def getClips(self):
 		#all the rightwalks
