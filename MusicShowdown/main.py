@@ -27,6 +27,7 @@ def main():
 
 	#initialise sprites and render it
 	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT) 
+	setCamera(player)
 
 	#initialize minion objects here
 	minion1 = Minion("data/boo.png")
