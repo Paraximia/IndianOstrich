@@ -1,11 +1,13 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, imagepath, playerW, playerH):
+	def __init__(self, imagepath, playerW, playerH, levelW, levelH):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
 		self.playerW = playerW
 		self.playerH = playerH
+		self.levelW = levelW
+		self.levelH = levelH
 
 		#initial image
 		self.sheet.set_clip( pygame.Rect(0, 0, playerW, playerH) )
@@ -26,6 +28,7 @@ class Player(pygame.sprite.Sprite):
 		self.getClips()
 
 	def update(self):
+		self.move()
 		#if it's moving left 
 		if( self.xVel < 0 ):
 			#change status to left
@@ -42,7 +45,7 @@ class Player(pygame.sprite.Sprite):
 			#reset the animation
 			self.frame = 0
 		#looping
-		if( self.frame >= 3):
+		if( self.frame >= 2):
 			self.frame = 0
 
 		#check status and change image
@@ -52,10 +55,15 @@ class Player(pygame.sprite.Sprite):
 		elif( self.status == 'l' ):
 			self.image = self.leftWalk[self.frame]
 			#self.rect = self.image.get_rect()
-		self.move()
 
 	def move(self):
 		self.rect.x += self.xVel
+
+		#check if it's gone too far to the right or left
+		if( (self.rect.x < 0 ) or (self.rect.x + self.rect.w > self.levelW) ):
+			#move it back
+			self.rect.x -= self.xVel
+
 		self.rect.y += self.yVel
 
 	def getClips(self):
