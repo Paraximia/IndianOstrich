@@ -4,12 +4,13 @@ from minion import Minion
 from prop import Prop
 
 #constants -- using caps and underscores to differentiate them from other vars
-BG_WIDTH = 3000
-BG_HEIGHT = 960
+#get the background
+bg = pygame.image.load("data/level1.png")
+BG_WIDTH = bg.get_rect().w
+BG_HEIGHT = bg.get_rect().h
 #coordinates of where the ground is
-BG_GROUND = 355
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 320
 PLAYERW = 64
 PLAYERH = 128
 #initialise the camera
@@ -17,8 +18,6 @@ camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
 def main():
 	pygame.init()
-	#get the background
-	bg = pygame.image.load("data/level1.png")
 
 	#caption
 	pygame.display.set_caption("This is a game we made, it's cool")
@@ -27,7 +26,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT, BG_GROUND) 
+	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT) 
 
 	#initialize minion objects here
 	minion1 = Minion("data/boo.png")
@@ -75,7 +74,7 @@ def main():
 def setCamera(player):
 	#center it over player
 	camera.x = ( player.rect.x + player.rect.w/ 2 ) - ( SCREEN_WIDTH/ 2 )
-	camera.y = ( (player.rect.y + player.rect.h)/ 2 ) - ( SCREEN_HEIGHT/ 2 )
+	camera.y = ( (player.rect.y + player.rect.h/2) - (SCREEN_HEIGHT/2) ) 
 
 	#keep it in bounds
 	if( camera.x < 0 ):

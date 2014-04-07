@@ -1,21 +1,19 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, imagepath, playerW, playerH, levelW, levelH, levelG):
+	def __init__(self, imagepath, playerW, playerH, levelW, levelH):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
 		self.playerW = playerW
 		self.playerH = playerH
 		self.levelW = levelW
 		self.levelH = levelH
-		self.levelG = levelG
 
 		#initial image
 		self.sheet.set_clip( pygame.Rect(0, 0, playerW, playerH) )
 		self.image = self.sheet.subsurface( self.sheet.get_clip() )
 		self.rect = self.image.get_rect()
-		self.rect.x = 41
-		self.rect.y = levelG
+		self.rect.y = levelH - playerH
 
 		#velocitites
 		self.xVel = 0
@@ -68,9 +66,10 @@ class Player(pygame.sprite.Sprite):
 			#move it back
 			self.rect.x -= self.xVel
 
-		self.rect.y += self.yVel
-		if( (self.rect.y < 0 ) or (self.rect.y + self.rect.h > self.levelG + 2) ):
-			self.rect.x -= self.yVel
+		self.rect.y -= self.yVel
+		if( (self.rect.y < 0 ) or (self.rect.y + self.rect.h >= self.levelH/4) ):
+			self.rect.y += self.yVel
+			self.jump = 'j'
 
 	def getClips(self):
 		#all the rightwalks
@@ -101,8 +100,6 @@ class Player(pygame.sprite.Sprite):
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
-
-
 	def handleInput(self, event):
 		#deal with left events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT ):
@@ -117,13 +114,6 @@ class Player(pygame.sprite.Sprite):
 			self.xVel -= self.rect.w/4
 
 		#deal with up events
-		if( event.type == pygame.KEYDOWN and event.key == pygame.K_UP ):
-			self.yVel -= self.rect.w/8
-		elif( event.type == pygame.KEYUP and event.key == pygame.K_UP ):
-			self.yVel += self.rect.w/8
-
-		#deal with down events
-		"""if( event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN ):
-			self.yVel += self.rect.w/8
-		elif( event.type == pygame.KEYUP and event.key == pygame.K_DOWN ):
-			self.yVel -= self.rect.w/8"""
+		if( (event.type == pygame.KEYUP and event.key == pygame.K_UP) and self.jump == 's'):
+			self.rect.yVel -= self.rect.h/4
+			self.jump = 'j'
