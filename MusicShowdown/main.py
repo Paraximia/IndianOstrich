@@ -47,7 +47,7 @@ def main():
 
 	running = True
 	while running:
-		clock.tick(60) #60 fps
+		clock.tick(12) #60 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False

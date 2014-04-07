@@ -92,24 +92,24 @@ class Player(pygame.sprite.Sprite):
 	def handleInput(self, event):
 		#deal with left events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT ):
-			self.xVel -= self.rect.w/4
+			self.xVel -= self.rect.w/8
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_LEFT ):
-			self.xVel += self.rect.w/4
+			self.xVel += self.rect.w/8
 
 		#deal with right events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT ):
-			self.xVel += self.rect.w/4
+			self.xVel += self.rect.w/8
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_RIGHT ):
-			self.xVel -= self.rect.w/4
+			self.xVel -= self.rect.w/8
 
 		#deal with up events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_UP ):
-			self.yVel -= self.rect.w/4
+			self.yVel -= self.rect.w/8
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_UP ):
-			self.yVel += self.rect.w/4
+			self.yVel += self.rect.w/8
 
 		#deal with down events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN ):
-			self.yVel += self.rect.w/4
+			self.yVel += self.rect.w/8
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_DOWN ):
-			self.yVel -= self.rect.w/4
+			self.yVel -= self.rect.w/8
