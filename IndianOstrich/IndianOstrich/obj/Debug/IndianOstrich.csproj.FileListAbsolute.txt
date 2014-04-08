@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
 <<<<<<< HEAD
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.csprojResolveAssemblyReference.cache
@@ -24,3 +25,6 @@ C:\Users\Surya\Documents\GitHub\IndianOstrich\IndianOstrich\IndianOstrich\bin\De
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.exe
 A:\Users\Austin\Desktop\Git\IndianOstrich\IndianOstrich\IndianOstrich\obj\Debug\IndianOstrich.pdb
 >>>>>>> 607e884f849c156342839f30da8744897dd5fa40
+=======
+C:\Users\Paraximia\Dropbox\Ostrich\IndianOstrich\IndianOstrich\IndianOstrich\bin\Debug\IndianOstrich.exe.config
+>>>>>>> 96287cb7e003558b9dded597a78cdfc54844c565

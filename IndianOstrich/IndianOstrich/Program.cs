@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+<<<<<<< HEAD
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
@@ -41,6 +42,17 @@ namespace IndianOstrich
                 screen.Update();
                 Video.WindowCaption = Events.Fps.ToString();
             }
+=======
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IndianOstrich
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+>>>>>>> 96287cb7e003558b9dded597a78cdfc54844c565
         }
     }
 }

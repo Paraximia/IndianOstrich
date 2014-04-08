@@ -4,8 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+<<<<<<< HEAD
     <ProjectGuid>{18BEC9FE-BC93-46B7-A7AD-DDC1D63A55E7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
+=======
+    <ProjectGuid>{42ADD559-66CD-416B-AE68-D3EA37B33C74}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+>>>>>>> 96287cb7e003558b9dded597a78cdfc54844c565
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IndianOstrich</RootNamespace>
     <AssemblyName>IndianOstrich</AssemblyName>
@@ -32,16 +37,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Reference Include="SdlDotNet, Version=6.1.0.0, Culture=neutral, PublicKeyToken=26ad4f7e10c61408, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\SdlDotNet.dll</HintPath>
     </Reference>
+=======
+>>>>>>> 96287cb7e003558b9dded597a78cdfc54844c565
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+<<<<<<< HEAD
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -75,16 +84,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+=======
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+>>>>>>> 96287cb7e003558b9dded597a78cdfc54844c565
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <Content Include="Images\PlayerPlaceholder.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Audio\" />
   </ItemGroup>
+=======
+>>>>>>> 96287cb7e003558b9dded597a78cdfc54844c565
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
