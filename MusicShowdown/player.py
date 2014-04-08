@@ -24,9 +24,12 @@ class Player(pygame.sprite.Sprite):
 		#jump state jumping = j, standing = s
 		self.jump = 's'
 
+		#attacking status 'n' = not, 'a' = attacking
+		self.attack = 'n'
+
 		#left = l or right = r
 		self.status = 'r'
-		
+
 		#current frame
 		self.frame = 0
 		self.leftWalk = []
@@ -121,3 +124,9 @@ class Player(pygame.sprite.Sprite):
 		if( (event.type == pygame.KEYUP and event.key == pygame.K_UP) and self.jump == 's'):
 			self.rect.yVel -= self.rect.h/4
 			self.jump = 'j'
+
+		#deal with attack events
+		if (event.type == pygame.KEYDOWN and event.key == pygame.K_a):
+			self.attack = 'a'
+		if (event.type == pygame.KEYUP and event.key == pygame.K_a):
+			self.attack = 'n'

@@ -67,8 +67,10 @@ def main():
 		if( playerMinionColls ):
 			#check if player.x < minion.x
 			#todo--loop for all collisions
-			if playerMinionColls[0].rect.x < player.rect.x:
+			if playerMinionColls[0].rect.x > player.rect.x and player.attack == 'a':
 				minionsprites.remove(playerMinionColls[0])
+			else:
+				playersprite.sprites()[0].rect.x = 0
 		playersprite.update()
 		minionsprites.update(player)
 		propsprites.update()
