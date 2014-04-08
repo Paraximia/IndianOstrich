@@ -20,11 +20,13 @@ class Player(pygame.sprite.Sprite):
 		#velocitites
 		self.xVel = 0
 		self.yVel = 0
+
 		#jump state jumping = j, standing = s
 		self.jump = 's'
 
 		#left = l or right = r
 		self.status = 'r'
+		
 		#current frame
 		self.frame = 0
 		self.leftWalk = []

@@ -1,10 +1,11 @@
 import pygame
 
 class Minion(pygame.sprite.Sprite):
-	def __init__(self, imagepath):
+	def __init__(self, imagepath, levelW, levelH):
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.image.load(imagepath)
 		self.rect = self.image.get_rect()
+		self.rect.y = levelH - 128*3 - 64
 		self.xVel = 0
 		self.yVel = 0
 
