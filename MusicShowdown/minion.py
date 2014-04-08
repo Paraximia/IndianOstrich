@@ -25,19 +25,20 @@ class Minion(pygame.sprite.Sprite):
 		self.getClips()
 
 		self.frame = 0
-		self.status = 'l'
+		#true = right, false = left
+		self.status = True
 
 	def update(self, player):
 		#self.chase(player)
 		self.move()
 		if( self.xVel < 0 ):
 			#change status to left
-			self.status = 'l'
+			self.status = False
 			#go to next frame
 			self.frame += 1
 		elif( self.xVel > 0 ):
 			#change status to right
-			self.status = 'r'
+			self.status = True
 			#go to next frame
 			self.frame +=1
 		#if standing
@@ -49,18 +50,25 @@ class Minion(pygame.sprite.Sprite):
 			self.frame = 0
 
 		#check status and change image
-		if( self.status == 'r' ):
+		if( self.status == True ):
 			self.image = self.rightWalk[self.frame]
 			#self.rect = self.image.get_rect()
-		elif( self.status == 'l' ):
+		elif( self.status == False ):
 			self.image = self.leftWalk[self.frame]
 
 	def move(self):
-		self.xVel = 50
-		if( self.rect.x + self.rect.w <= self.spawnPoint + 500):
+		speed = 32
+		if( self.rect.x + self.rect.w == self.spawnPoint + 768 or self.rect.x + self.rect.w == self.spawnPoint - 192 ):
+			self.status = not self.status
+			print self.rect.x + self.rect.w
+			print self.status
+		if( self.rect.x + self.rect.w > self.spawnPoint - 192 and self.status == False):
+			self.xVel = -speed
 			self.rect.x += self.xVel
-		elif( self.rect.x + self.rect.w >= self.spawnPoint + 500):
-			self.rect.x -= self.xVel
+			#print self.rect.x + self.rect.w
+		if( self.rect.x + self.rect.w < self.spawnPoint + 768 and self.status == True):
+			self.xVel = speed
+			self.rect.x += self.xVel
 
 	"""def chase(self, player):
 		if (player.rect.x - self.rect.x < 500):

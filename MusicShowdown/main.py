@@ -23,13 +23,14 @@ def main():
 
 	#create screen
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	pygame.mixer.music.load(load("data/thrift.mp3"))
 
 	#initialise sprites and render it
 	player = Player("data/player.png", BG_WIDTH, BG_HEIGHT, scaleFactor=1)
 	setCamera(player)
 
 	#initialize minion objects here
-	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=500)
+	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=692)
 	#minion list
 	minions = [minion1]
 
@@ -48,6 +49,7 @@ def main():
 
 	screen.fill(pygame.Color(0,0,0))
 	running = True
+	pygame.mixer.music.play()
 	while running:
 		clock.tick(9) #60 fps
 		for event in pygame.event.get():
