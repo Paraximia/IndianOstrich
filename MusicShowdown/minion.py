@@ -32,9 +32,9 @@ class Minion(pygame.sprite.Sprite):
 		#self.chase(player)
 		self.move()
 		
-		if (self.xVel != 0)
+		if (self.xVel != 0):
 			self.frame += 1
-		else
+		else:
 			self.frame = 0
 		
 		#if( self.xVel < 0 ):

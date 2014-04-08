@@ -55,7 +55,7 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 	running = True
 	#play music
-	pygame.mixer.music.play()
+	#pygame.mixer.music.play()
 	while running:
 		clock.tick(9) #60 fps
 		for event in pygame.event.get():
