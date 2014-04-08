@@ -5,12 +5,13 @@ class Minion(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.image.load(imagepath)
 		self.rect = self.image.get_rect()
+		self.rect.x = 250
 		self.rect.y = levelH - 128*3 - 64
 		self.xVel = 0
 		self.yVel = 0
 
 	def update(self, player):
-		self.chase(player)
+		#self.chase(player)
 		self.move()
 
 	def move(self):
