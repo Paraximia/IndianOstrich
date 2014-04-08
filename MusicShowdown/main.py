@@ -5,15 +5,15 @@ from prop import Prop
 
 #constants -- using caps and underscores to differentiate them from other vars
 #get the background
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
-scaleFactor = 3
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 960
+SCALEFACTOR = 1
 bg = pygame.image.load("data/level1.png")
-bg = pygame.transform.scale(bg, (bg.get_rect().w*scaleFactor, bg.get_rect().h*scaleFactor))
+bg = pygame.transform.scale(bg, (bg.get_rect().w*SCALEFACTOR, bg.get_rect().h*SCALEFACTOR))
 BG_WIDTH = bg.get_rect().w
 BG_HEIGHT = bg.get_rect().h
-PLAYERW = 64
-PLAYERH = 128
+PLAYERW = 192
+PLAYERH = 128*3
 #initialise the camera
 camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -27,7 +27,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT, scaleFactor=1) 
+	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT, scaleFactor=1)
 	setCamera(player)
 
 	#initialize minion objects here
@@ -51,7 +51,7 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 	running = True
 	while running:
-		clock.tick(60) #60 fps
+		clock.tick(9) #60 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
@@ -76,7 +76,7 @@ def main():
 def setCamera(player):
 	#center it over player
 	camera.x = (player.rect.x + player.rect.w/ 2) - (SCREEN_WIDTH/ 2)
-	camera.y = (player.rect.y + player.rect.h/2)  - (SCREEN_HEIGHT/2)  
+	camera.y = (player.rect.y + player.rect.h/2)  - (SCREEN_HEIGHT/2)
 
 	#keep it in bounds
 	if( camera.x < 0 ):

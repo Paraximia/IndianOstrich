@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
 		self.image = pygame.transform.scale(imageOrig, (imageOrig.get_rect().w*scaleFactor,
 			imageOrig.get_rect().h*scaleFactor))
 		self.rect = self.image.get_rect()
-		self.rect.y = levelH - playerH - 150
+		self.rect.y = levelH - playerH - 64
 
 		#velocitites
 		self.xVel = 0

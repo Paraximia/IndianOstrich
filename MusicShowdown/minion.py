@@ -19,8 +19,10 @@ class Minion(pygame.sprite.Sprite):
 	def chase(self, player):
 		if (player.rect.x - self.rect.x < 500):
 			if (player.rect.x < self.rect.x):
-				self.xVel -= self.rect.w/8
+				self.xVel = -self.rect.w/8
 			elif(player.rect.x > self.rect.x):
-				self.xVel += self.rect.w/8
+				self.xVel = self.rect.w/8
 			elif(player.rect.x == self.rect.x):
 				self.xVel = 0
+			#else:
+				#give me out of vision minion code
