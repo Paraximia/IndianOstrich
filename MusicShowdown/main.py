@@ -66,7 +66,7 @@ def main():
 	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
 
 	#play music
-	pygame.mixer.music.play(start=3)
+	pygame.mixer.music.play(-1,3)
 	kills = 0
 
 	#font for health
@@ -75,7 +75,7 @@ def main():
 
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
-			pygame.mixer.music.play(start=3)
+			pygame.mixer.music.play(-1,3)
 
 		if( not pygame.mixer.get_busy() ):
 			pygame.mixer.music.unpause()
