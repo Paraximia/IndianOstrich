@@ -40,7 +40,7 @@ def main():
 	minions = [minion1, minion2, minion3, minion4]
 
 	#initialize prop objects here
-	prop1 = Prop("data/poo.png")
+	prop1 = Prop("data/poo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2800)
 	#prop list
 	props = [prop1]
 
@@ -57,7 +57,7 @@ def main():
 	#play music
 	#pygame.mixer.music.play()
 	while running:
-		clock.tick(9) #60 fps
+		clock.tick(9) #9 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
 				running = False
@@ -77,14 +77,34 @@ def main():
 				minionsprites.remove(playerMinionColls[0])
 			else:
 				playersprite.sprites()[0].rect.x = 0
+		#get player-prop collisions
+		playerPropColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], propsprites, False) )
+		#if there are any
+		if( playerPropColls ):
+			#first checks if player is to the left of object
+			if((player.rect.x + player.rect.w) > playerPropColls[0].rect.x and player.status == 'r' ):
+				#checks if the player is still trying to move right
+				if(player.xVel > 0):
+					player.rect.x -= player.xVel
+			#then checks if player is to the right of object
+			elif(player.rect.x < (playerPropColls[0].rect.x + playerPropColls[0].rect.w) and player.status == 'l' ):
+				#checks if the player is still trying to move left
+				if(player.xVel < 0):
+					player.rect.x -= player.xVel
+			#lastly checks if player is above the object
+			elif(player.rect.y + player.rect.h > playerPropColls[0].rect.y):
+				#checks if the player is still falling
+				if(player.yVel > 0):
+					player.rect.y -= player.yVel	
 		playersprite.update()
 		minionsprites.update(player)
 		propsprites.update()
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		for minion in minionsprites.sprites():
-			screen.blit( minion.image, ( minion.rect.x - camera.x, minion2.rect.y - camera.y))
-		propsprites.draw(screen)
+			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
+		for prop in propsprites.sprites():
+			screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
 		pygame.display.flip()
 
 def setCamera(player):
