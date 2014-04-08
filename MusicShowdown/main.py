@@ -143,6 +143,8 @@ def main():
 		#screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
+		label2 = myfont.render("This concludes our demo. To fight the boss pay $0.99", 1, (255,255,0))
+		screen.blit(label2, (9600, 1056))
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
 		screen.blit(label, (0,0))
 		#for prop in propsprites.sprites():
