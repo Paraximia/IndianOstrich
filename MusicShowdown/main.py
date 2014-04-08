@@ -23,7 +23,9 @@ def main():
 
 	#create screen
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-	pygame.mixer.music.load(load("data/thrift.mp3"))
+	#setup music
+	pygame.mixer.init()
+	pygame.mixer.music.load("data/thrift.ogg")
 
 	#initialise sprites and render it
 	player = Player("data/player.png", BG_WIDTH, BG_HEIGHT, scaleFactor=1)
@@ -31,8 +33,11 @@ def main():
 
 	#initialize minion objects here
 	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=692)
+	minion2 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=1500)
+	minion3 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2000)
+	minion4 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2700)
 	#minion list
-	minions = [minion1]
+	minions = [minion1, minion2, minion3, minion4]
 
 	#initialize prop objects here
 	prop1 = Prop("data/poo.png")
@@ -49,6 +54,7 @@ def main():
 
 	screen.fill(pygame.Color(0,0,0))
 	running = True
+	#play music
 	pygame.mixer.music.play()
 	while running:
 		clock.tick(9) #60 fps
@@ -77,7 +83,7 @@ def main():
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		for minion in minionsprites.sprites():
-			screen.blit( minion.image, ( minion1.rect.x - camera.x, minion1.rect.y - camera.y))
+			screen.blit( minion.image, ( minion.rect.x - camera.x, minion2.rect.y - camera.y))
 		propsprites.draw(screen)
 		pygame.display.flip()
 
