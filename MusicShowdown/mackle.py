@@ -1,5 +1,5 @@
 import pygame
-
+import math
 class Mackle(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
@@ -23,6 +23,8 @@ class Mackle(pygame.sprite.Sprite):
 		self.rightWalk = []
 
 		self.getClips()
+
+		self.bullets = []
 
 		self.frame = 0
 		#true = right, false = left
@@ -73,6 +75,7 @@ class Mackle(pygame.sprite.Sprite):
 		if( self.rect.x + self.rect.w < self.spawnPoint + 768 and self.status == True):
 			self.xVel = speed
 			self.rect.x += self.xVel
+
 
 	"""def chase(self, player):
 		if (player.rect.x - self.rect.x < 500):
