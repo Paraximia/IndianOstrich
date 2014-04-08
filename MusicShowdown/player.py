@@ -15,14 +15,16 @@ class Player(pygame.sprite.Sprite):
 		self.image = pygame.transform.scale(imageOrig, (imageOrig.get_rect().w*scaleFactor,
 			imageOrig.get_rect().h*scaleFactor))
 		self.rect = self.image.get_rect()
-		self.rect.y = levelH - self.playerH - 64
-
+		self.spawnPoint = (0, levelH - self.playerH - 64)
+		self.rect.y = self.spawnPoint[1]
 		#velocitites
 		self.xVel = 0
 		self.yVel = 0
 
-		#jump state jumping = j, standing = s
-		self.jump = 's'
+		#jump state 
+		self.onGround = True
+		self.jumping = False
+		self.gravity = 3
 
 		#attacking status 'n' = not, 'a' = attacking
 		self.attack = 'n'
@@ -39,6 +41,7 @@ class Player(pygame.sprite.Sprite):
 	def update(self):
 		self.move()
 		#if it's moving left 
+
 		if( self.xVel < 0 ):
 			#change status to left
 			self.status = 'l'
@@ -73,10 +76,16 @@ class Player(pygame.sprite.Sprite):
 			#move it back
 			self.rect.x -= self.xVel
 
-		self.rect.y -= self.yVel
-		if( (self.rect.y < 0 ) or (self.rect.y + self.rect.h >= self.levelH/4) ):
-			self.rect.y += self.yVel
-			self.jump = 'j'
+		if( self.jumping == True):
+			print 'yeah'
+			if( self.rect.y + self.yVel < self.spawnPoint[1] ):
+				print 'yeah2'
+				self.rect.y += self.yVel
+				self.yVel += self.gravity
+				print self.yVel
+			else:
+				self.jumping = False
+				self.onGround = True
 
 	def getClips(self):
 		#all the rightwalks
@@ -121,9 +130,10 @@ class Player(pygame.sprite.Sprite):
 			self.xVel -= self.rect.w/4
 
 		#deal with up events
-		if( (event.type == pygame.KEYUP and event.key == pygame.K_UP) and self.jump == 's'):
-			self.rect.yVel -= self.rect.h/4
-			self.jump = 'j'
+		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True and self.jumping == False):
+			self.yVel -= 48
+			self.jumping = True
+			self.onGround = False
 
 		#deal with attack events
 		if (event.type == pygame.KEYDOWN and event.key == pygame.K_a):
