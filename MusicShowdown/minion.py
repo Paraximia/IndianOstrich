@@ -4,7 +4,7 @@ class Minion(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
 		self.miniW = 64
-		self.miniH = 130
+		self.miniH = 92
 
 		self.sheet = pygame.image.load(imagepath)
 		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
@@ -56,11 +56,10 @@ class Minion(pygame.sprite.Sprite):
 			self.image = self.leftWalk[self.frame]
 
 	def move(self):
-		if( self.rect.x <= self.spawnPoint + 100):
-			self.xVel = 50
+		self.xVel = 50
+		if( self.rect.x + self.rect.w <= self.spawnPoint + 500):
 			self.rect.x += self.xVel
-		elif( self.rect.x >= self.spawnPoint + 100):
-			self.xVel = -50
+		elif( self.rect.x + self.rect.w >= self.spawnPoint + 500):
 			self.rect.x -= self.xVel
 
 	"""def chase(self, player):
