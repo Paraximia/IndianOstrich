@@ -55,7 +55,7 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 	running = True
 	#play music
-	pygame.mixer.music.play(start=3)
+	##pygame.mixer.music.play(start=3)
 	kills = 0
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
@@ -80,7 +80,7 @@ def main():
 				minionsprites.remove(playerMinionColls[0])
 				kills += 1
 				if( kills == 1):
-					pygame.mixer.music.play(-1, 23)
+					pygame.mixer.music.play(-1, 43.5)
 			else:
 				playersprite.sprites()[0].rect.x = 0
 		"""#get player-prop collisions
