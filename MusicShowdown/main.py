@@ -3,6 +3,7 @@ from player import Player
 from minion import Minion
 from prop import Prop
 from random import randint
+from mackle import Mackle
 
 #constants -- using caps and underscores to differentiate them from other vars
 #get the background
@@ -40,6 +41,9 @@ def main():
 	#minion list
 	minions = [minion1, minion2, minion3, minion4]
 
+	#macklemore
+	mackle = Mackle("data/boo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=500)
+
 	#initialize prop objects here
 	prop1 = Prop("data/poo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2800)
 	#prop list
@@ -48,6 +52,7 @@ def main():
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
+	macklesprite = pygame.sprite.RenderPlain(mackle)
 	propsprites = pygame.sprite.RenderPlain(props)
 
 	#initialise clock
@@ -61,10 +66,11 @@ def main():
 	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
 
 	#play music
-	pygame.mixer.music.play(start=3)
+	#pygame.mixer.music.play(start=3)
 	kills = 0
 
 	#font for health
+	pygame.font.init()
 	myfont = pygame.font.SysFont("monospace", 15)
 
 	while running:
@@ -96,12 +102,16 @@ def main():
 				if( kills == 1):
 					pygame.mixer.music.play(-1, 43.5)
 			elif(player.health > 0):
-				player.health -= 50
-				player.rect.x -= 500
+				player.health -= 5
+				if(player.rect.x - 500 >= 0):
+					player.rect.x -= 500
+				else:
+					player.rect.x = 0
 				pygame.mixer.music.pause()
 				effects[0].play()
-			else:
+			elif(player.health <= 0):
 				playersprite.sprites()[0].rect.x = 0
+				player.health = 100
 
 		"""#get player-prop collisions
 		playerPropColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], propsprites, False) )
@@ -123,13 +133,18 @@ def main():
 				if(player.yVel != 0):
 					player.yVel = 0
 					player.rect.y == playerPropColls[0].rect.h"""	
+
 		playersprite.update()
 		minionsprites.update(player)
 		propsprites.update()
+		#macklesprite.update(player)
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
+		#screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
+		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
+		screen.blit(label, (0,0))
 		#for prop in propsprites.sprites():
 			#screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
 		pygame.display.flip()
