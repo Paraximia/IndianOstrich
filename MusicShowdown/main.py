@@ -2,6 +2,7 @@ import pygame
 from player import Player
 from minion import Minion
 from prop import Prop
+from random import randint
 
 #constants -- using caps and underscores to differentiate them from other vars
 #get the background
@@ -25,7 +26,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 	#setup music
 	pygame.mixer.init()
-	pygame.mixer.music.load("data/thrift.ogg")
+	pygame.mixer.music.load("data/thrift/thrift.ogg")
 
 	#initialise sprites and render it
 	player = Player("data/player.png", BG_WIDTH, BG_HEIGHT, scaleFactor=1)
@@ -54,12 +55,22 @@ def main():
 
 	screen.fill(pygame.Color(0,0,0))
 	running = True
+	#setup sound effects
+	effects = []
+	effects.append(pygame.mixer.Sound('data/thrift/99c.ogg'))
+	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
+
 	#play music
-	##pygame.mixer.music.play(start=3)
+	pygame.mixer.music.play(start=3)
 	kills = 0
+
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
 			pygame.mixer.music.play(start=3)
+
+		if( not pygame.mixer.get_busy() ):
+			pygame.mixer.music.unpause()
+
 		clock.tick(9) #9 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -83,6 +94,8 @@ def main():
 					pygame.mixer.music.play(-1, 43.5)
 			else:
 				playersprite.sprites()[0].rect.x = 0
+				pygame.mixer.music.pause()
+				effects[0].play()
 		"""#get player-prop collisions
 		playerPropColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], propsprites, False) )
 		#if there are any
