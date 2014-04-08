@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
 		self.levelH = levelH
 
 		#initial image
-		self.sheet.set_clip( pygame.Rect(0, 0, self.playerW, self.playerH) )
+		self.sheet.set_clip(pygame.Rect(self.playerW*4, 0, self.playerW, self.playerH))
 		imageOrig = self.sheet.subsurface( self.sheet.get_clip() )
 		self.image = pygame.transform.scale(imageOrig, (imageOrig.get_rect().w*scaleFactor,
 			imageOrig.get_rect().h*scaleFactor))
@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
 			#reset the animation
 			self.frame = 0
 		#looping
-		if( self.frame >= 4):
+		if( self.frame >= 5):
 			self.frame = 0
 
 		#check status and change image
@@ -88,6 +88,9 @@ class Player(pygame.sprite.Sprite):
 
 	def getClips(self):
 		#all the rightwalks
+		self.sheet.set_clip( pygame.Rect( self.playerW*4, 0, self.playerW, self.playerH) )
+		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
 		self.sheet.set_clip( pygame.Rect(0, 0, self.playerW, self.playerH) )
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
@@ -101,7 +104,11 @@ class Player(pygame.sprite.Sprite):
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
+
 		#get all the leftwalks
+		self.sheet.set_clip( pygame.Rect( self.playerW*4, self.playerH, self.playerW, self.playerH) )
+		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
 		self.sheet.set_clip( pygame.Rect(0, self.playerH, self.playerW, self.playerH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
