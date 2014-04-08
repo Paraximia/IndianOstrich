@@ -66,7 +66,7 @@ class Player(pygame.sprite.Sprite):
 			#self.rect = self.image.get_rect()
 
 	def move(self):
-		self.rect.x += self.xVel
+		self.rect.x += self.xVel  
 
 		#check if it's gone too far to the right or left
 		if( (self.rect.x < 0 ) or (self.rect.x + self.rect.w > self.levelW) ):

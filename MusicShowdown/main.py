@@ -31,7 +31,7 @@ def main():
 	setCamera(player)
 
 	#initialize minion objects here
-	minion1 = Minion("data/boo.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=500)
 	#minion list
 	minions = [minion1]
 
