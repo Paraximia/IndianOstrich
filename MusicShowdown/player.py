@@ -23,6 +23,8 @@ class Player(pygame.sprite.Sprite):
 
 		#jump state 
 		self.onGround = True
+		self.jumping = False
+		self.gravity = 3
 
 		#attacking status 'n' = not, 'a' = attacking
 		self.attack = 'n'
@@ -74,16 +76,16 @@ class Player(pygame.sprite.Sprite):
 			#move it back
 			self.rect.x -= self.xVel
 
-		#move up
-		self.rect.y += self.yVel
-
-		#if it reaches max height move it down
-		if( self.rect.y + self.rect.h == 576 ):
-			self.yVel = -self.yVel 
-		#when it hits ground stop it and chagne the onground
-		if( self.rect.y == self.spawnPoint[1] ):
-			self.yVel = 0
-			self.onGround = True
+		if( self.jumping == True):
+			print 'yeah'
+			if( self.rect.y + self.yVel < self.spawnPoint[1] ):
+				print 'yeah2'
+				self.rect.y += self.yVel
+				self.yVel += self.gravity
+				print self.yVel
+			else:
+				self.jumping = False
+				self.onGround = True
 
 	def getClips(self):
 		#all the rightwalks
@@ -128,8 +130,9 @@ class Player(pygame.sprite.Sprite):
 			self.xVel -= self.rect.w/4
 
 		#deal with up events
-		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True):
-			self.yVel -= 32
+		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True and self.jumping == False):
+			self.yVel -= 48
+			self.jumping = True
 			self.onGround = False
 
 		#deal with attack events
