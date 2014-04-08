@@ -64,6 +64,9 @@ def main():
 	pygame.mixer.music.play(start=3)
 	kills = 0
 
+	#font for health
+	myfont = pygame.font.SysFont("monospace", 15)
+
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
 			pygame.mixer.music.play(start=3)
@@ -92,10 +95,14 @@ def main():
 				kills += 1
 				if( kills == 1):
 					pygame.mixer.music.play(-1, 43.5)
-			else:
-				playersprite.sprites()[0].rect.x = 0
+			elif(player.health > 0):
+				player.health -= 50
+				player.rect.x -= 500
 				pygame.mixer.music.pause()
 				effects[0].play()
+			else:
+				playersprite.sprites()[0].rect.x = 0
+
 		"""#get player-prop collisions
 		playerPropColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], propsprites, False) )
 		#if there are any
@@ -123,13 +130,13 @@ def main():
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
-		for prop in propsprites.sprites():
-			screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
+		#for prop in propsprites.sprites():
+			#screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
 		pygame.display.flip()
 
 def setCamera(player):
 	#center it over player
-	camera.x = (player.rect.x + player.rect.w/ 2) - (SCREEN_WIDTH/ 2)
+	camera.x = (player.rect.x + player.rect.w/2) - (SCREEN_WIDTH/ 2)
 	camera.y = (player.rect.y + player.rect.h/2)  - (SCREEN_HEIGHT/2)
 
 	#keep it in bounds

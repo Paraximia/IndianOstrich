@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
 
 		#attacking status 'n' = not, 'a' = attacking
 		self.attack = 'n'
+		self.health = 100
 
 		#left = l or right = r
 		self.status = 'r'
@@ -36,6 +37,8 @@ class Player(pygame.sprite.Sprite):
 		self.frame = 0
 		self.leftWalk = []
 		self.rightWalk = []
+		self.punch = []
+		self.jumpA = []
 		self.getClips()
 
 	def update(self):
@@ -63,10 +66,23 @@ class Player(pygame.sprite.Sprite):
 		#check status and change image
 		if( self.status == 'r' ):
 			self.image = self.rightWalk[self.frame]
-			#self.rect = self.image.get_rect()
+
 		elif( self.status == 'l' ):
 			self.image = self.leftWalk[self.frame]
-			#self.rect = self.image.get_rect()
+
+		if( self.attack == 'a' and self.status == 'r'):
+			self.image = self.punch[0]
+			self.attack = 'n'
+
+		elif( self.attack == 'a' and self.status == 'l'):
+			self.image = self.punch[1]
+			self.attack = 'n'
+
+		if( self.jumping == True and self.status == 'l'):
+			self.image = self.jumpA[0]
+
+		if( self.jumping == True and self.status == 'r'):
+			self.image = self.jumpA[1]
 
 	def move(self):
 		self.rect.x += self.xVel  
@@ -104,7 +120,6 @@ class Player(pygame.sprite.Sprite):
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
-
 		#get all the leftwalks
 		self.sheet.set_clip( pygame.Rect( self.playerW*4, self.playerH, self.playerW, self.playerH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
@@ -120,6 +135,20 @@ class Player(pygame.sprite.Sprite):
 		
 		self.sheet.set_clip( pygame.Rect( self.playerW*3, self.playerH, self.playerW, self.playerH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		#get jump
+		self.sheet.set_clip( pygame.Rect(self.playerW*3, self.playerH*2, self.playerW, self.playerH) )
+		self.jumpA.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect(self.playerW*2, self.playerH*2, self.playerW, self.playerH) )
+		self.jumpA.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		#get punch
+		self.sheet.set_clip( pygame.Rect(0, self.playerH*2, self.playerW, self.playerH) )
+		self.punch.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect(self.playerW, self.playerH*2, self.playerW, self.playerH) )
+		self.punch.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
 	def handleInput(self, event):
@@ -144,5 +173,4 @@ class Player(pygame.sprite.Sprite):
 		#deal with attack events
 		if (event.type == pygame.KEYDOWN and event.key == pygame.K_a):
 			self.attack = 'a'
-		if (event.type == pygame.KEYUP and event.key == pygame.K_a):
-			self.attack = 'n'
+			self.frame = 0
