@@ -77,13 +77,12 @@ class Player(pygame.sprite.Sprite):
 			self.rect.x -= self.xVel
 
 		if( self.jumping == True):
-			print 'yeah'
 			if( self.rect.y + self.yVel < self.spawnPoint[1] ):
-				print 'yeah2'
 				self.rect.y += self.yVel
 				self.yVel += self.gravity
 				print self.yVel
 			else:
+				self.yVel = 0
 				self.jumping = False
 				self.onGround = True
 
@@ -131,7 +130,7 @@ class Player(pygame.sprite.Sprite):
 
 		#deal with up events
 		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True and self.jumping == False):
-			self.yVel -= 48
+			self.yVel -= 42
 			self.jumping = True
 			self.onGround = False
 
