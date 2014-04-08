@@ -1,23 +1,69 @@
 import pygame
 
 class Minion(pygame.sprite.Sprite):
-	def __init__(self, imagepath, levelW, levelH):
+	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-		self.image = pygame.image.load(imagepath)
+		self.miniW = 64
+		self.miniH = 130
+
+		self.sheet = pygame.image.load(imagepath)
+		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
+		self.image = self.sheet.subsurface( self.sheet.get_clip() )
+
 		self.rect = self.image.get_rect()
-		self.rect.y = levelH - 128*3 - 64
+
+		self.spawnPoint = spawnPoint
+		self.rect.x = spawnPoint
+		self.rect.y = levelH - self.miniW - 64
+
 		self.xVel = 0
 		self.yVel = 0
 
+		self.leftWalk = []
+		self.rightWalk = []
+
+		self.getClips()
+
+		self.frame = 0
+		self.status = 'l'
+
 	def update(self, player):
-		self.chase(player)
+		#self.chase(player)
 		self.move()
+		if( self.xVel < 0 ):
+			#change status to left
+			self.status = 'l'
+			#go to next frame
+			self.frame += 1
+		elif( self.xVel > 0 ):
+			#change status to right
+			self.status = 'r'
+			#go to next frame
+			self.frame +=1
+		#if standing
+		else:
+			#reset the animation
+			self.frame = 0
+		#looping
+		if( self.frame >= 4):
+			self.frame = 0
+
+		#check status and change image
+		if( self.status == 'r' ):
+			self.image = self.rightWalk[self.frame]
+			#self.rect = self.image.get_rect()
+		elif( self.status == 'l' ):
+			self.image = self.leftWalk[self.frame]
 
 	def move(self):
-		self.rect.x += self.xVel
-		self.rect.y += self.yVel
+		if( self.rect.x <= self.spawnPoint + 100):
+			self.xVel = 50
+			self.rect.x += self.xVel
+		elif( self.rect.x >= self.spawnPoint + 100):
+			self.xVel = -50
+			self.rect.x -= self.xVel
 
-	def chase(self, player):
+	"""def chase(self, player):
 		if (player.rect.x - self.rect.x < 500):
 			if (player.rect.x < self.rect.x):
 				self.xVel = -self.rect.w/8
@@ -26,4 +72,32 @@ class Minion(pygame.sprite.Sprite):
 			elif(player.rect.x == self.rect.x):
 				self.xVel = 0
 			#else:
-				#give me out of vision minion code
+				#give me out of vision minion code"""
+
+	def getClips(self):
+		#all the rightwalks
+		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
+		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW, 0, self.miniW, self.miniH) )
+		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW*2, 0, self.miniW, self.miniH) )
+		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+		
+		self.sheet.set_clip( pygame.Rect( self.miniW*3, 0, self.miniW, self.miniH) )
+		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+
+		#get all the leftwalks
+		self.sheet.set_clip( pygame.Rect(0, self.miniH, self.miniW, self.miniH) )
+		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW, self.miniH, self.miniW, self.miniH) )
+		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW*2, self.miniH, self.miniW, self.miniH) )
+		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+		
+		self.sheet.set_clip( pygame.Rect( self.miniW*3, self.miniH, self.miniW, self.miniH) )
+		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )

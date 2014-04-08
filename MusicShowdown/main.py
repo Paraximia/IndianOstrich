@@ -31,7 +31,7 @@ def main():
 	setCamera(player)
 
 	#initialize minion objects here
-	minion1 = Minion("data/boo.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=500)
 	#minion list
 	minions = [minion1]
 
@@ -61,16 +61,23 @@ def main():
 		#draw bg
 		bg.set_clip( pygame.Rect(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT) )
 		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
-		#check for collisions
-		#TODO COLLISION CHECK
-		#update sprites
-		print( pygame.sprite.spritecollide(playersprite.sprites()[0], minionsprites, False) )
+		#get player-minion collisions
+		playerMinionColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], minionsprites, False) )
+		#if there are any
+		if( playerMinionColls ):
+			#check if player.x < minion.x
+			#todo--loop for all collisions
+			if playerMinionColls[0].rect.x > player.rect.x and player.attack == 'a':
+				minionsprites.remove(playerMinionColls[0])
+			else:
+				playersprite.sprites()[0].rect.x = 0
 		playersprite.update()
 		minionsprites.update(player)
 		propsprites.update()
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
-		minionsprites.draw(screen)
+		for minion in minionsprites.sprites():
+			screen.blit( minion.image, ( minion1.rect.x - camera.x, minion1.rect.y - camera.y))
 		propsprites.draw(screen)
 		pygame.display.flip()
 
