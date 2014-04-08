@@ -73,7 +73,7 @@ def main():
 
 	#font for health
 	pygame.font.init()
-	myfont = pygame.font.SysFont("monospace", 15)
+	myfont = pygame.font.SysFont("monospace", 20)
 
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
@@ -100,6 +100,7 @@ def main():
 			#check if player.x < minion.x
 			#todo--loop for all collisions
 			if playerMinionColls[0].rect.x > player.rect.x and player.attack == 'a':
+				player.health += 10
 				minionsprites.remove(playerMinionColls[0])
 				kills += 1
 				if( kills == 1):
