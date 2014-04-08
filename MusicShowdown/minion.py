@@ -3,8 +3,8 @@ import pygame
 class Minion(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-		self.miniW = 64
-		self.miniH = 92
+		self.miniW = 192
+		self.miniH = 276
 
 		self.sheet = pygame.image.load(imagepath)
 		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )

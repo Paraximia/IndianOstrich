@@ -12,8 +12,6 @@ bg = pygame.image.load("data/level1.png")
 bg = pygame.transform.scale(bg, (bg.get_rect().w*SCALEFACTOR, bg.get_rect().h*SCALEFACTOR))
 BG_WIDTH = bg.get_rect().w
 BG_HEIGHT = bg.get_rect().h
-PLAYERW = 192
-PLAYERH = 128*3
 #initialise the camera
 camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -27,7 +25,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 	#initialise sprites and render it
-	player = Player("data/player.png", PLAYERW, PLAYERH, BG_WIDTH, BG_HEIGHT, scaleFactor=1)
+	player = Player("data/player.png", BG_WIDTH, BG_HEIGHT, scaleFactor=1)
 	setCamera(player)
 
 	#initialize minion objects here
