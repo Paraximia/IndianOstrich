@@ -66,7 +66,7 @@ def main():
 	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
 
 	#play music
-	#pygame.mixer.music.play(start=3)
+	pygame.mixer.music.play(start=3)
 	kills = 0
 
 	#font for health
