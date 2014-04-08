@@ -94,10 +94,13 @@ def main():
 
 	while running:
 		if( player.rect.x - mackle.rect.x <= 200 and len(bullets_array) <= 6):
+			#bulletSurface = pygame.Surface((3000,3000))
+			#bulletSurface.fill(pygame.Color(255,255,255))
 			bullets_array.append(Bullet(bg, mackle.rect.x, mackle.rect.y))
 			#GROSS
-			for bullet in bullets_array :
+			for bullet in bullets_array:
 				bulletGroup.add(bullet)
+			pygame.sprite.Group.draw( bulletGroup, screen)
 
 		for bullet in bullets_array:
 			bullet.update()
