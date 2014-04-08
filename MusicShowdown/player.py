@@ -96,7 +96,6 @@ class Player(pygame.sprite.Sprite):
 			if( self.rect.y + self.yVel < self.spawnPoint[1] ):
 				self.rect.y += self.yVel
 				self.yVel += self.gravity
-				print self.yVel
 			else:
 				self.yVel = 0
 				self.jumping = False

@@ -17,23 +17,8 @@ BG_WIDTH = bg.get_rect().w
 BG_HEIGHT = bg.get_rect().h
 #initialise the camera
 camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
-bullets_array = []
 
 #this is gross as fucks
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, surface, x_coord, y_coord):
-    	pygame.sprite.Sprite.__init__(self)
-        self.image = surface
-        self.rect = self.image.get_rect()
-        self.rect.x = x_coord
-        self.rect.y = y_coord
-        return
-
-    def update(self, x_amount=50):
-        self.rect.x -= x_amount
-        self.image.set_at((self.rect.x, self.rect.y),(255,255,255))
-        return
-
 def main():
 	pygame.init()
 
@@ -66,12 +51,10 @@ def main():
 	#prop list
 	props = [prop1]
 
-	bulletGross = Bullet(bg, 50000000, 50000000)
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
 	macklesprite = pygame.sprite.RenderPlain(mackle)
-	bulletGroup = pygame.sprite.RenderPlain(bulletGross)
 	propsprites = pygame.sprite.RenderPlain(props)
 
 	#initialise clock
@@ -90,21 +73,9 @@ def main():
 
 	#font for health
 	pygame.font.init()
-	myfont = pygame.font.SysFont("monospace", 15)
+	myfont = pygame.font.SysFont("monospace", 20)
 
 	while running:
-		if( player.rect.x - mackle.rect.x <= 200 and len(bullets_array) <= 6):
-			#bulletSurface = pygame.Surface((3000,3000))
-			#bulletSurface.fill(pygame.Color(255,255,255))
-			bullets_array.append(Bullet(bg, mackle.rect.x, mackle.rect.y))
-			#GROSS
-			for bullet in bullets_array:
-				bulletGroup.add(bullet)
-			pygame.sprite.Group.draw( bulletGroup, screen)
-
-		for bullet in bullets_array:
-			bullet.update()
-
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
 			pygame.mixer.music.play(start=3)
 
@@ -121,8 +92,7 @@ def main():
 		#draw bg
 		bg.set_clip( pygame.Rect(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT) )
 		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
-		#bullet player collisions
-		bulletPlayerColls = pygame.sprite.groupcollide(playersprite, bulletGroup, False, True)
+
 		#get player-minion collisions
 		playerMinionColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], minionsprites, False) )
 		#if there are any
@@ -130,6 +100,7 @@ def main():
 			#check if player.x < minion.x
 			#todo--loop for all collisions
 			if playerMinionColls[0].rect.x > player.rect.x and player.attack == 'a':
+				player.health += 10
 				minionsprites.remove(playerMinionColls[0])
 				kills += 1
 				if( kills == 1):
@@ -142,6 +113,33 @@ def main():
 					player.rect.x = 0
 				pygame.mixer.music.pause()
 				effects[0].play()
+			elif(player.health <= 0):
+				playersprite.sprites()[0].rect.x = 0
+				player.health = 100
+
+		#get player-minion collisions
+		playerMackleColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], macklesprite, False) )
+		#if there are any
+		if( playerMackleColls ):
+			#check if player.x < minion.x
+			#todo--loop for all collisions
+			if playerMackleColls[0].rect.x > player.rect.x and player.attack == 'a':
+				mackle.health -= 10
+				mackle.rect.x += 500
+				if( mackle.health <= 0):
+					macklesprite.remove(playerMackleColls[0])
+				kills += 1
+				if( kills == 1):
+					pygame.mixer.music.play(-1, 43.5)
+			elif(player.health >= 0):
+				player.health -= 15
+				if(player.rect.x - 500 >= 0):
+					player.rect.x -= 500
+				else:
+					player.rect.x = 0
+				pygame.mixer.music.pause()
+				effects[0].play()
+			#GROSS AS FUCKS
 			elif(player.health <= 0):
 				playersprite.sprites()[0].rect.x = 0
 				player.health = 100
@@ -173,11 +171,14 @@ def main():
 		macklesprite.update(player)
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
-		screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
+		if( len(macklesprite.sprites()) > 0 ):
+			screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
+		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
 		screen.blit(label, (0,0))
+		screen.blit(label2, (SCREEN_WIDTH - label.get_rect().w - 250, 0))
 		#for prop in propsprites.sprites():
 			#screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
 		pygame.display.flip()
