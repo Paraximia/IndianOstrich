@@ -11,15 +11,15 @@ class Player(pygame.sprite.Sprite):
 
 		#initial image
 		self.sheet.set_clip(pygame.Rect(self.playerW*4, 0, self.playerW, self.playerH))
-		imageOrig = self.sheet.subsurface( self.sheet.get_clip() )
-		self.image = pygame.transform.scale(imageOrig, (imageOrig.get_rect().w*scaleFactor,
-			imageOrig.get_rect().h*scaleFactor))
+		self.image = self.sheet.subsurface( self.sheet.get_clip() )
 		self.rect = self.image.get_rect()
 		self.spawnPoint = (0, levelH - self.playerH - 64)
 		self.rect.y = self.spawnPoint[1]
 		#velocitites
 		self.xVel = 0
 		self.yVel = 0
+		self.xSpeed = self.rect.w/4
+		self.ySpeed = 42
 
 		#jump state 
 		self.onGround = True
@@ -153,19 +153,19 @@ class Player(pygame.sprite.Sprite):
 	def handleInput(self, event):
 		#deal with left events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT ):
-			self.xVel -= self.rect.w/4
+			self.xVel -= self.xSpeed
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_LEFT ):
-			self.xVel += self.rect.w/4
+			self.xVel += self.xSpeed
 
 		#deal with right events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT ):
-			self.xVel += self.rect.w/4
+			self.xVel += self.xSpeed
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_RIGHT ):
-			self.xVel -= self.rect.w/4
+			self.xVel -= self.xSpeed
 
 		#deal with up events
 		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True and self.jumping == False):
-			self.yVel -= 42
+			self.yVel -= self.ySpeed
 			self.jumping = True
 			self.onGround = False
 

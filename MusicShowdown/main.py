@@ -1,9 +1,11 @@
 import pygame
+#game imports
 from player import Player
 from minion import Minion
 from prop import Prop
 from random import randint
 from mackle import Mackle
+
 import math
 
 #constants -- using caps and underscores to differentiate them from other vars
@@ -18,7 +20,6 @@ BG_HEIGHT = bg.get_rect().h
 #initialise the camera
 camera = pygame.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-#this is gross as fucks
 def main():
 	pygame.init()
 
@@ -54,14 +55,13 @@ def main():
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
-	macklesprite = pygame.sprite.RenderPlain(mackle)
 	propsprites = pygame.sprite.RenderPlain(props)
 
 	#initialise clock
 	clock = pygame.time.Clock()
 
 	screen.fill(pygame.Color(0,0,0))
-	running = True
+
 	#setup sound effects
 	effects = []
 	effects.append(pygame.mixer.Sound('data/thrift/99c.ogg'))
@@ -71,10 +71,11 @@ def main():
 	pygame.mixer.music.play(start=3)
 	kills = 0
 
-	#font for health
+	#font for health and other stupid stuff we write
 	pygame.font.init()
 	myfont = pygame.font.SysFont("monospace", 20)
 
+	running = True
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
 			pygame.mixer.music.play(start=3)
@@ -98,51 +99,28 @@ def main():
 		#if there are any
 		if( playerMinionColls ):
 			#check if player.x < minion.x
-			#todo--loop for all collisions
-			if playerMinionColls[0].rect.x > player.rect.x and player.attack == 'a':
-				player.health += 10
-				minionsprites.remove(playerMinionColls[0])
-				kills += 1
-				if( kills == 1):
-					pygame.mixer.music.play(-1, 43.5)
-			elif(player.health > 0):
-				player.health -= 5
-				if(player.rect.x - 500 >= 0):
-					player.rect.x -= 500
-				else:
-					player.rect.x = 0
-				pygame.mixer.music.pause()
-				effects[0].play()
-			elif(player.health <= 0):
-				playersprite.sprites()[0].rect.x = 0
-				player.health = 100
-
-		#get player-minion collisions
-		playerMackleColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], macklesprite, False) )
-		#if there are any
-		if( playerMackleColls ):
-			#check if player.x < minion.x
-			#todo--loop for all collisions
-			if playerMackleColls[0].rect.x > player.rect.x and player.attack == 'a':
-				mackle.health -= 10
-				mackle.rect.x += 500
-				if( mackle.health <= 0):
-					macklesprite.remove(playerMackleColls[0])
-				kills += 1
-				if( kills == 1):
-					pygame.mixer.music.play(-1, 43.5)
-			elif(player.health >= 0):
-				player.health -= 15
-				if(player.rect.x - 500 >= 0):
-					player.rect.x -= 500
-				else:
-					player.rect.x = 0
-				pygame.mixer.music.pause()
-				effects[0].play()
-			#GROSS AS FUCKS
-			elif(player.health <= 0):
-				playersprite.sprites()[0].rect.x = 0
-				player.health = 100
+			for coll in playerMinionColls:
+				#kill the minion if the player is attacking it and it's in front
+				if coll.rect.x > player.rect.x and player.attack == 'a':
+					player.health += 10
+					#remove it -- TODO HEALTH
+					minionsprites.remove(playerMinionColls[0])
+					kills += 1
+					#kick in the beat if the player gets his first kill
+					if( kills == 1):
+						pygame.mixer.music.play(-1, 43.5)
+				#take away from the player's health otherwise
+				elif(player.health > 0):
+					player.health -= 5
+					if(player.rect.x - 500 >= 0):
+						player.rect.x -= 500
+					else:
+						player.rect.x = 0
+					pygame.mixer.music.pause()
+					effects[0].play()
+				elif(player.health <= 0):
+					playersprite.sprites()[0].rect.x = 0
+					player.health = 100
 
 		"""#get player-prop collisions
 		playerPropColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], propsprites, False) )
@@ -168,11 +146,8 @@ def main():
 		playersprite.update()
 		minionsprites.update(player)
 		propsprites.update()
-		macklesprite.update(player)
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
-		if( len(macklesprite.sprites()) > 0 ):
-			screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
