@@ -8,7 +8,7 @@ from mackle import Mackle
 
 import math
 
-#constants -- using caps and underscores to differentiate them from other vars
+#constants  using caps and underscores to differentiate them from other vars
 #get the background
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 960

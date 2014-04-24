@@ -16,11 +16,11 @@ class Player(pygame.sprite.Sprite):
 		self.spawnPoint = spawnPoint
 		self.rect.y = spawnPoint.y - self.playerH
 		#velocitites
-		self.gravity = 3
+		self.gravity = 4.5
 		self.xVel = 0
 		self.yVel = self.gravity
 		self.xSpeed = self.rect.w/4
-		self.ySpeed = 42
+		self.ySpeed = 55
 
 		#jump state 
 		self.onGround = True
@@ -96,11 +96,7 @@ class Player(pygame.sprite.Sprite):
 		if( self.jumping == True):
 			self.rect.y += self.yVel
 			self.yVel += self.gravity
-			#else:
-			#	self.yVel = 0
-			#	self.jumping = False
-			#	self.onGround = True
-
+			
 	def getClips(self):
 		#all the rightwalks
 		self.sheet.set_clip( pygame.Rect( self.playerW*4, 0, self.playerW, self.playerH) )
