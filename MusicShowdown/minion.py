@@ -13,8 +13,9 @@ class Minion(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 
 		self.spawnPoint = spawnPoint
-		self.rect.x = spawnPoint
-		self.rect.y = levelH - self.miniW - 64
+
+		self.rect.x = spawnPoint.x
+		self.rect.y = spawnPoint.y - self.miniH
 
 		self.xVel = 0
 		self.yVel = 0
@@ -64,13 +65,13 @@ class Minion(pygame.sprite.Sprite):
 
 	def move(self):
 		speed = 32
-		if( self.rect.x + self.rect.w == self.spawnPoint + 768 or self.rect.x + self.rect.w == self.spawnPoint - 192 ):
+		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 ):
 			self.status = not self.status
-		if( self.rect.x + self.rect.w > self.spawnPoint - 192 and self.status == False):
+		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False):
 			self.xVel = -speed
 			self.rect.x += self.xVel
 			#print self.rect.x + self.rect.w
-		if( self.rect.x + self.rect.w < self.spawnPoint + 768 and self.status == True):
+		if( self.rect.x + self.rect.w < self.spawnPoint.x + 768 and self.status == True):
 			self.xVel = speed
 			self.rect.x += self.xVel
 

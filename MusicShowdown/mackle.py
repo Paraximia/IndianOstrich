@@ -14,8 +14,8 @@ class Mackle(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 
 		self.spawnPoint = spawnPoint
-		self.rect.x = spawnPoint
-		self.rect.y = levelH - self.miniW - 64
+		self.rect.x = spawnPoint.x
+		self.rect.y = spawnPoint.y
 
 		self.xVel = 0
 		self.yVel = 0

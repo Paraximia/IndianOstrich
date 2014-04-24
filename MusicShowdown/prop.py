@@ -12,7 +12,6 @@ class Prop(pygame.sprite.Sprite):
 		self.levelH = levelH
 		self.propW = self.rect.w
 		self.propH = self.rect.h
-		self.spawnPoint = spawnPoint
 
-		self.rect.x = spawnPoint
-		self.rect.y = levelH - self.propW - 64
+		self.rect.x = spawnPoint.x
+		self.rect.y = spawnPoint.y
