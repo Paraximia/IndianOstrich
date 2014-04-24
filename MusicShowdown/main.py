@@ -32,23 +32,27 @@ def main():
 	pygame.mixer.init()
 	pygame.mixer.music.load("data/thrift/thrift.ogg")
 
-	#initialise sprites and render it
-	player = Player("data/player.png", BG_WIDTH, BG_HEIGHT, scaleFactor=1)
+	#make a floor sprite
+	floorSpawn = pygame.Rect(0, BG_HEIGHT - 64, 0, 0)
+	floor = Prop("data/floor.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
+
+	#initialise sprite and render it
+	player = Player("data/player.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
 	setCamera(player)
 
 	#initialize minion objects here
-	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=692)
-	minion2 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=1500)
-	minion3 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2000)
-	minion4 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2700)
+	minion1 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
+	minion2 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
+	minion3 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
+	minion4 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
 	#minion list
 	minions = [minion1, minion2, minion3, minion4]
 
 	#macklemore
-	mackle = Mackle("data/boo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=500)
+	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(3000, BG_WIDTH - 192 - 64, 0, 0))
 
 	#initialize prop objects here
-	prop1 = Prop("data/poo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=2800)
+	prop1 = Prop("data/poo.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(1700, BG_WIDTH - 192 - 64, 0, 0))
 	#prop list
 	props = [prop1]
 
@@ -56,6 +60,7 @@ def main():
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
 	propsprites = pygame.sprite.RenderPlain(props)
+	floorsprite = pygame.sprite.RenderPlain(floor)
 
 	#initialise clock
 	clock = pygame.time.Clock()
@@ -68,7 +73,7 @@ def main():
 	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
 
 	#play music
-	pygame.mixer.music.play(start=3)
+	#pygame.mixer.music.play(start=3)
 	kills = 0
 
 	#font for health and other stupid stuff we write
@@ -94,6 +99,15 @@ def main():
 		bg.set_clip( pygame.Rect(camera.x, camera.y, SCREEN_WIDTH, SCREEN_HEIGHT) )
 		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
 
+		#handle playerfloor collisions:
+		playerFloorColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], floorsprite, False) )
+		if( playerFloorColls ):
+			player.onGround = True
+			player.jumping = False
+			player.rect.y -= player.yVel
+			player.frame = 0
+			player.yVel = 0
+
 		#get player-minion collisions
 		playerMinionColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], minionsprites, False) )
 		#if there are any
@@ -112,10 +126,7 @@ def main():
 				#take away from the player's health otherwise
 				elif(player.health > 0):
 					player.health -= 5
-					if(player.rect.x - 500 >= 0):
-						player.rect.x -= 500
-					else:
-						player.rect.x = 0
+					
 					pygame.mixer.music.pause()
 					effects[0].play()
 				elif(player.health <= 0):

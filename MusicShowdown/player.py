@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, imagepath, levelW, levelH, scaleFactor):
+	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
 		self.playerW = 192
@@ -13,18 +13,19 @@ class Player(pygame.sprite.Sprite):
 		self.sheet.set_clip(pygame.Rect(self.playerW*4, 0, self.playerW, self.playerH))
 		self.image = self.sheet.subsurface( self.sheet.get_clip() )
 		self.rect = self.image.get_rect()
-		self.spawnPoint = (0, levelH - self.playerH - 64)
-		self.rect.y = self.spawnPoint[1]
+		self.spawnPoint = spawnPoint
+		self.rect.y = spawnPoint.y - self.playerH
 		#velocitites
+		self.gravity = 3
 		self.xVel = 0
-		self.yVel = 0
+		self.yVel = self.gravity
 		self.xSpeed = self.rect.w/4
 		self.ySpeed = 42
 
 		#jump state 
 		self.onGround = True
 		self.jumping = False
-		self.gravity = 3
+
 
 		#attacking status 'n' = not, 'a' = attacking
 		self.attack = 'n'
@@ -93,13 +94,12 @@ class Player(pygame.sprite.Sprite):
 			self.rect.x -= self.xVel
 
 		if( self.jumping == True):
-			if( self.rect.y + self.yVel < self.spawnPoint[1] ):
-				self.rect.y += self.yVel
-				self.yVel += self.gravity
-			else:
-				self.yVel = 0
-				self.jumping = False
-				self.onGround = True
+			self.rect.y += self.yVel
+			self.yVel += self.gravity
+			#else:
+			#	self.yVel = 0
+			#	self.jumping = False
+			#	self.onGround = True
 
 	def getClips(self):
 		#all the rightwalks
