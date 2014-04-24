@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
 		self.image = self.sheet.subsurface( self.sheet.get_clip() )
 		self.rect = self.image.get_rect()
 		self.spawnPoint = spawnPoint
-		self.rect.y = spawnPoint.y - self.playerH
+		self.rect.y = spawnPoint.y - self.playerH - 42
 		#velocitites
 		self.gravity = 4.5
 		self.xVel = 0
@@ -22,8 +22,7 @@ class Player(pygame.sprite.Sprite):
 		self.xSpeed = self.rect.w/4
 		self.ySpeed = 55
 
-		#jump state 
-		self.onGround = True
+		#jump state
 		self.jumping = False
 
 
@@ -160,10 +159,9 @@ class Player(pygame.sprite.Sprite):
 			self.xVel -= self.xSpeed
 
 		#deal with up events
-		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True and self.jumping == False):
+		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.jumping == False):
 			self.yVel -= self.ySpeed
 			self.jumping = True
-			self.onGround = False
 
 		#deal with attack events
 		if (event.type == pygame.KEYDOWN and event.key == pygame.K_a):

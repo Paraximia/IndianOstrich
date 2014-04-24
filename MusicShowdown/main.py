@@ -4,7 +4,7 @@ from player import Player
 from minion import Minion
 from prop import Prop
 from random import randint
-from mackle import Mackle
+from mackle import Mackle 
 
 import math
 
@@ -41,10 +41,10 @@ def main():
 	setCamera(player)
 
 	#initialize minion objects here
-	minion1 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
-	minion2 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
-	minion3 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
-	minion4 = Minion("data/moo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
+	minion1 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
+	minion2 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
+	minion3 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
+	minion4 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
 	#minion list
 	minions = [minion1, minion2, minion3, minion4]
 
@@ -100,9 +100,8 @@ def main():
 		screen.blit(bg.subsurface(bg.get_clip()), (0,0))
 
 		#handle playerfloor collisions:
-		playerFloorColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], floorsprite, False) )
+		playerFloorColls = (pygame.sprite.spritecollide(playersprite.sprites()[0], floorsprite, False))
 		if( playerFloorColls ):
-			player.onGround = True
 			player.jumping = False
 			player.rect.y -= player.yVel
 			player.frame = 0
