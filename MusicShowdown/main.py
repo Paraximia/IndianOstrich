@@ -61,6 +61,7 @@ def main():
 	minionsprites = pygame.sprite.RenderPlain(minions)
 	propsprites = pygame.sprite.RenderPlain(props)
 	floorsprite = pygame.sprite.RenderPlain(floor)
+	macklesprite = pygame.sprite.RenderPlain(mackle)
 
 	#initialise clock
 	clock = pygame.time.Clock()
@@ -155,9 +156,11 @@ def main():
 
 		playersprite.update()
 		minionsprites.update(player)
+		macklesprite.update(player)
 		propsprites.update()
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
+		screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))

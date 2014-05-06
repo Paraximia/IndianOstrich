@@ -54,7 +54,7 @@ class Mackle(pygame.sprite.Sprite):
 		else:
 			#reset the animation
 			self.frame = 0
-		looping
+		#looping
 		if( self.frame >= 4):
 			self.frame = 0
 
@@ -67,13 +67,13 @@ class Mackle(pygame.sprite.Sprite):
 
 	def move(self):
 		speed = 32
-		if( self.rect.x + self.rect.w == self.spawnPoint + 768 or self.rect.x + self.rect.w == self.spawnPoint - 192 ):
+		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 ):
 			self.status = not self.status
-		if( self.rect.x + self.rect.w > self.spawnPoint - 192 and self.status == False):
+		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False):
 			self.xVel = -speed
 			self.rect.x += self.xVel
 			#print self.rect.x + self.rect.w
-		if( self.rect.x + self.rect.w < self.spawnPoint + 768 and self.status == True):
+		if( self.rect.x + self.rect.w < self.spawnPoint.x + 768 and self.status == True):
 			self.xVel = speed
 			self.rect.x += self.xVel
 
