@@ -15,7 +15,7 @@ class Minion(pygame.sprite.Sprite):
 		self.spawnPoint = spawnPoint
 
 		self.rect.x = spawnPoint.x
-		self.rect.y = spawnPoint.y - self.miniH
+		self.rect.y = spawnPoint.y - self.miniH - 42
 
 		self.xVel = 0
 		self.yVel = 0

@@ -49,7 +49,7 @@ def main():
 	minions = [minion1, minion2, minion3, minion4]
 
 	#macklemore
-	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(3000, BG_WIDTH - 192 - 64, 0, 0))
+	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
 
 	#initialize prop objects here
 	prop1 = Prop("data/poo.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(1700, BG_WIDTH - 192 - 64, 0, 0))
@@ -132,27 +132,6 @@ def main():
 				elif(player.health <= 0):
 					playersprite.sprites()[0].rect.x = 0
 					player.health = 100
-
-		"""#get player-prop collisions
-		playerPropColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], propsprites, False) )
-		#if there are any
-		if( playerPropColls ):
-			#first checks if player is to the left of object
-			if((player.rect.x + player.rect.w) > playerPropColls[0].rect.x and player.status == 'r' ):
-				#checks if the player is still trying to move right
-				if(player.xVel > 0):
-					player.rect.x -= player.xVel
-			#then checks if player is to the right of object
-			elif(player.rect.x < (playerPropColls[0].rect.x + playerPropColls[0].rect.w) and player.status == 'l' ):
-				#checks if the player is still trying to move left
-				if(player.xVel < 0):
-					player.rect.x -= player.xVel
-			#lastly checks if player is above the object
-			elif(player.rect.y >= playerPropColls[0].rect.y):
-				#checks if the player is still falling
-				if(player.yVel != 0):
-					player.yVel = 0
-					player.rect.y == playerPropColls[0].rect.h"""	
 
 		playersprite.update()
 		minionsprites.update(player)

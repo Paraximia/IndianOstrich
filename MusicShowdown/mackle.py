@@ -1,10 +1,10 @@
 import pygame
-import math
+
 class Mackle(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-		self.miniW = 288
-		self.miniH = 384
+		self.miniW = 48
+		self.miniH = 64
 		self.health = 100
 
 		self.sheet = pygame.image.load(imagepath)
@@ -14,8 +14,9 @@ class Mackle(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 
 		self.spawnPoint = spawnPoint
+
 		self.rect.x = spawnPoint.x
-		self.rect.y = spawnPoint.y
+		self.rect.y = spawnPoint.y - self.miniH - 42
 
 		self.xVel = 0
 		self.yVel = 0
@@ -24,8 +25,6 @@ class Mackle(pygame.sprite.Sprite):
 		self.rightWalk = []
 
 		self.getClips()
-
-		self.bullets = []
 
 		self.frame = 0
 		#true = right, false = left
@@ -40,20 +39,20 @@ class Mackle(pygame.sprite.Sprite):
 		else:
 			self.frame = 0
 		
-		if( self.xVel < 0 ):
+		#if( self.xVel < 0 ):
 			#change status to left
-			self.status = False
+			#self.status = False
 			#go to next frame
-			self.frame += 1
-		elif( self.xVel > 0 ):
+			#self.frame += 1
+		#elif( self.xVel > 0 ):
 			#change status to right
-			self.status = True
+			#self.status = True
 			#go to next frame
-			self.frame +=1
+			#self.frame +=1
 		#if standing
-		else:
+		#else:
 			#reset the animation
-			self.frame = 0
+			#self.frame = 0
 		#looping
 		if( self.frame >= 4):
 			self.frame = 0
@@ -61,7 +60,7 @@ class Mackle(pygame.sprite.Sprite):
 		#check status and change image
 		if( self.status == True ):
 			self.image = self.rightWalk[self.frame]
-			self.rect = self.image.get_rect()
+			#self.rect = self.image.get_rect()
 		elif( self.status == False ):
 			self.image = self.leftWalk[self.frame]
 
@@ -77,8 +76,7 @@ class Mackle(pygame.sprite.Sprite):
 			self.xVel = speed
 			self.rect.x += self.xVel
 
-
-	def chase(self, player):
+	"""def chase(self, player):
 		if (player.rect.x - self.rect.x < 500):
 			if (player.rect.x < self.rect.x):
 				self.xVel = -self.rect.w/8
@@ -87,7 +85,7 @@ class Mackle(pygame.sprite.Sprite):
 			elif(player.rect.x == self.rect.x):
 				self.xVel = 0
 			#else:
-				#give me out of vision minion code
+				#give me out of vision minion code"""
 
 	def getClips(self):
 		#all the rightwalks
