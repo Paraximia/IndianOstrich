@@ -41,10 +41,17 @@ def main():
 	setCamera(player)
 
 	#initialize minion objects here
+<<<<<<< HEAD
 	minion1 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
 	minion2 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
 	minion3 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
 	minion4 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
+=======
+	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=1000)
+	minion2 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=3000)
+	minion3 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=4000)
+	minion4 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=6700)
+>>>>>>> pygame
 	#minion list
 	minions = [minion1, minion2, minion3, minion4]
 
@@ -74,7 +81,7 @@ def main():
 	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
 
 	#play music
-	#pygame.mixer.music.play(start=3)
+	pygame.mixer.music.play(-1,3)
 	kills = 0
 
 	#font for health and other stupid stuff we write
@@ -84,7 +91,7 @@ def main():
 	running = True
 	while running:
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
-			pygame.mixer.music.play(start=3)
+			pygame.mixer.music.play(-1,3)
 
 		if( not pygame.mixer.get_busy() ):
 			pygame.mixer.music.unpause()
