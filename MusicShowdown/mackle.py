@@ -3,8 +3,8 @@ import pygame
 class Mackle(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-		self.miniW = 48
-		self.miniH = 64
+		self.miniW = 144
+		self.miniH = 192
 		self.health = 100
 
 		self.sheet = pygame.image.load(imagepath)

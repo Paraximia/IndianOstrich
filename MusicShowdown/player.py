@@ -4,8 +4,8 @@ class Player(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
-		self.playerW = 192
-		self.playerH = 384
+		self.playerW = 192/2
+		self.playerH = 384/2
 		self.levelW = levelW
 		self.levelH = levelH
 
