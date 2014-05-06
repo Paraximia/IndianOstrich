@@ -40,28 +40,28 @@ class Mackle(pygame.sprite.Sprite):
 		else:
 			self.frame = 0
 		
-		#if( self.xVel < 0 ):
+		if( self.xVel < 0 ):
 			#change status to left
-			#self.status = False
+			self.status = False
 			#go to next frame
-			#self.frame += 1
-		#elif( self.xVel > 0 ):
+			self.frame += 1
+		elif( self.xVel > 0 ):
 			#change status to right
-			#self.status = True
+			self.status = True
 			#go to next frame
-			#self.frame +=1
+			self.frame +=1
 		#if standing
-		#else:
+		else:
 			#reset the animation
-			#self.frame = 0
-		#looping
+			self.frame = 0
+		looping
 		if( self.frame >= 4):
 			self.frame = 0
 
 		#check status and change image
 		if( self.status == True ):
 			self.image = self.rightWalk[self.frame]
-			#self.rect = self.image.get_rect()
+			self.rect = self.image.get_rect()
 		elif( self.status == False ):
 			self.image = self.leftWalk[self.frame]
 
@@ -78,7 +78,7 @@ class Mackle(pygame.sprite.Sprite):
 			self.rect.x += self.xVel
 
 
-	"""def chase(self, player):
+	def chase(self, player):
 		if (player.rect.x - self.rect.x < 500):
 			if (player.rect.x < self.rect.x):
 				self.xVel = -self.rect.w/8
@@ -87,7 +87,7 @@ class Mackle(pygame.sprite.Sprite):
 			elif(player.rect.x == self.rect.x):
 				self.xVel = 0
 			#else:
-				#give me out of vision minion code"""
+				#give me out of vision minion code
 
 	def getClips(self):
 		#all the rightwalks
