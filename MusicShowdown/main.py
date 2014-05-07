@@ -157,8 +157,7 @@ def main():
 			#blit the textbox and the text
 			screen.blit(textbox, textPos)
 			screen.blit(text, textPos)
-			if( scene1Count == 5 ):
-				screen.blit(pygame.image.load("data/Flappy Bird/FlappyBirdBackGround.png"), (0,0,0,0))
+			
 
 		playersprite.update()
 		minionsprites.update(player)
