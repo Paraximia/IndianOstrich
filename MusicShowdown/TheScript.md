@@ -5,8 +5,6 @@ Player(Will): What the fuck are you guys doing?
 Others: Uhh......
 Player: You're supposed to be making a game!
 Others: OH SHIT!
-
-Scene II
 Surya: Guys, let's rewrite the whole thing!
 John: Yeah! How's this? 
 Enter Flappy Bird
