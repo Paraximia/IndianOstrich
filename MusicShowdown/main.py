@@ -94,6 +94,7 @@ def main():
 
 	running = True
 	while running:
+		print player.rect.x
 		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
 			pygame.mixer.music.play(start=3)
 
