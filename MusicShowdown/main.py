@@ -51,7 +51,7 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 	running = True
 	while running:
-		clock.tick(60) #60 fps
+		clock.tick(15) #60 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
