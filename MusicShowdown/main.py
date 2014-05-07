@@ -56,12 +56,14 @@ def main():
 	#prop list
 	props = [prop1]
 
+
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
 	propsprites = pygame.sprite.RenderPlain(props)
 	floorsprite = pygame.sprite.RenderPlain(floor)
 	macklesprite = pygame.sprite.RenderPlain(mackle)
+
 
 	#initialise clock
 	clock = pygame.time.Clock()
@@ -132,6 +134,13 @@ def main():
 				elif(player.health <= 0):
 					playersprite.sprites()[0].rect.x = 0
 					player.health = 100
+		#cutscene1
+		if( player.rect.x >= 0):
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			textbox = pygame.Surface((600, 100), flags=0)
+			screen.blit(textbox, textPos)
+			text = myfont.render("Player: What the fuck are you guys doing?", 1, (255,255,0))
+			screen.blit(text, textPos)
 
 		playersprite.update()
 		minionsprites.update(player)
