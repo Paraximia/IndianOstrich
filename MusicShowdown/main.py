@@ -77,6 +77,7 @@ def main():
 	"Others: OH SHIT!",
 	"Surya: Guys, let's rewrite the whole thing!",
 	"John: Yeah! How's this?" ]
+	scene1Count = 0
 
 	#setup sound effects
 	effects = []
@@ -149,14 +150,15 @@ def main():
 			#textbox
 			textbox = pygame.Surface((600, 100), flags=0)
 			#loop through the dialogue
-			counter = 0
-			text = myfont.render(scene1Text[counter], 1, (255,255,0))
-			if(counter <= len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
-				counter += 1
-				text = myfont.render(scene1Text[counter], 1, (255,255,0))
+			text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
+			if(scene1Count < len(scene1Text) - 1 and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+				text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
+				scene1Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, textPos)
 			screen.blit(text, textPos)
+			if( scene1Count == 5 ):
+				screen.blit(pygame.image.load("data/Flappy Bird/FlappyBirdBackGround.png"), (0,0,0,0))
 
 		playersprite.update()
 		minionsprites.update(player)
