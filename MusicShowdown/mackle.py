@@ -3,8 +3,14 @@ import pygame
 class Mackle(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-		self.miniW = 96
-		self.miniH = 128
+<<<<<<< HEAD
+		self.miniW = 144
+		self.miniH = 192
+		self.health = 100
+=======
+		self.miniW = 192
+		self.miniH = 256
+>>>>>>> pygame
 
 		self.sheet = pygame.image.load(imagepath)
 		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
@@ -13,8 +19,9 @@ class Mackle(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 
 		self.spawnPoint = spawnPoint
-		self.rect.x = spawnPoint
-		self.rect.y = levelH - self.miniW - 64
+
+		self.rect.x = spawnPoint.x
+		self.rect.y = spawnPoint.y - self.miniH - 42
 
 		self.xVel = 0
 		self.yVel = 0
@@ -64,13 +71,13 @@ class Mackle(pygame.sprite.Sprite):
 
 	def move(self):
 		speed = 32
-		if( self.rect.x + self.rect.w == self.spawnPoint + 768 or self.rect.x + self.rect.w == self.spawnPoint - 192 ):
+		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 ):
 			self.status = not self.status
-		if( self.rect.x + self.rect.w > self.spawnPoint - 192 and self.status == False):
+		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False):
 			self.xVel = -speed
 			self.rect.x += self.xVel
 			#print self.rect.x + self.rect.w
-		if( self.rect.x + self.rect.w < self.spawnPoint + 768 and self.status == True):
+		if( self.rect.x + self.rect.w < self.spawnPoint.x + 768 and self.status == True):
 			self.xVel = speed
 			self.rect.x += self.xVel
 

@@ -1,30 +1,30 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, imagepath, levelW, levelH, scaleFactor):
+	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
 		self.sheet = pygame.image.load(imagepath)
-		self.playerW = 192
-		self.playerH = 384
+		self.playerW = 192/2
+		self.playerH = 384/2
 		self.levelW = levelW
 		self.levelH = levelH
 
 		#initial image
 		self.sheet.set_clip(pygame.Rect(self.playerW*4, 0, self.playerW, self.playerH))
-		imageOrig = self.sheet.subsurface( self.sheet.get_clip() )
-		self.image = pygame.transform.scale(imageOrig, (imageOrig.get_rect().w*scaleFactor,
-			imageOrig.get_rect().h*scaleFactor))
+		self.image = self.sheet.subsurface( self.sheet.get_clip() )
 		self.rect = self.image.get_rect()
-		self.spawnPoint = (0, levelH - self.playerH - 64)
-		self.rect.y = self.spawnPoint[1]
+		self.spawnPoint = spawnPoint
+		self.rect.y = spawnPoint.y - self.playerH - 42
 		#velocitites
+		self.gravity = 4.5
 		self.xVel = 0
-		self.yVel = 0
+		self.yVel = self.gravity
+		self.xSpeed = self.rect.w/4
+		self.ySpeed = 55
 
-		#jump state 
-		self.onGround = True
+		#jump state
 		self.jumping = False
-		self.gravity = 3
+
 
 		#attacking status 'n' = not, 'a' = attacking
 		self.attack = 'n'
@@ -93,15 +93,9 @@ class Player(pygame.sprite.Sprite):
 			self.rect.x -= self.xVel
 
 		if( self.jumping == True):
-			if( self.rect.y + self.yVel < self.spawnPoint[1] ):
-				self.rect.y += self.yVel
-				self.yVel += self.gravity
-				print self.yVel
-			else:
-				self.yVel = 0
-				self.jumping = False
-				self.onGround = True
-
+			self.rect.y += self.yVel
+			self.yVel += self.gravity
+			
 	def getClips(self):
 		#all the rightwalks
 		self.sheet.set_clip( pygame.Rect( self.playerW*4, 0, self.playerW, self.playerH) )
@@ -154,21 +148,20 @@ class Player(pygame.sprite.Sprite):
 	def handleInput(self, event):
 		#deal with left events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT ):
-			self.xVel -= self.rect.w/4
+			self.xVel -= self.xSpeed
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_LEFT ):
-			self.xVel += self.rect.w/4
+			self.xVel += self.xSpeed
 
 		#deal with right events
 		if( event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT ):
-			self.xVel += self.rect.w/4
+			self.xVel += self.xSpeed
 		elif( event.type == pygame.KEYUP and event.key == pygame.K_RIGHT ):
-			self.xVel -= self.rect.w/4
+			self.xVel -= self.xSpeed
 
 		#deal with up events
-		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.onGround == True and self.jumping == False):
-			self.yVel -= 42
+		if( (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) and self.jumping == False):
+			self.yVel -= self.ySpeed
 			self.jumping = True
-			self.onGround = False
 
 		#deal with attack events
 		if (event.type == pygame.KEYDOWN and event.key == pygame.K_a):
