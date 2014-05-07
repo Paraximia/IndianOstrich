@@ -64,7 +64,7 @@ class Minion(pygame.sprite.Sprite):
 			self.image = self.leftWalk[self.frame]
 
 	def move(self):
-		speed = 32
+		speed = 16
 		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 ):
 			self.status = not self.status
 		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False):
