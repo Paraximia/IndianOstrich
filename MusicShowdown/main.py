@@ -70,6 +70,15 @@ def main():
 
 	screen.fill(pygame.Color(0,0,0))
 
+	#dialogue setup
+	scene1Text = ["Player: What the fuck are you guys doing?",
+	"Others: Uhh......",
+	"Player: You're supposed to be making a game!",
+	"Others: OH SHIT!",
+	"Surya: Guys, let's rewrite the whole thing!",
+	"John: Yeah! How's this?" ]
+	scene1Count = 0
+
 	#setup sound effects
 	effects = []
 	effects.append(pygame.mixer.Sound('data/thrift/99c.ogg'))
@@ -135,12 +144,21 @@ def main():
 					playersprite.sprites()[0].rect.x = 0
 					player.health = 100
 		#cutscene1
-		if( player.rect.x >= 0):
+		if( player.rect.x >= 0 and player.rect.x <= 50):
+			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
 			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
+			if(scene1Count < len(scene1Text) - 1 and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+				text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
+				scene1Count += 1
+			#blit the textbox and the text
 			screen.blit(textbox, textPos)
-			text = myfont.render("Player: What the fuck are you guys doing?", 1, (255,255,0))
 			screen.blit(text, textPos)
+			if( scene1Count == 5 ):
+				screen.blit(pygame.image.load("data/Flappy Bird/FlappyBirdBackGround.png"), (0,0,0,0))
 
 		playersprite.update()
 		minionsprites.update(player)
@@ -155,8 +173,6 @@ def main():
 		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
 		screen.blit(label, (0,0))
 		screen.blit(label2, (SCREEN_WIDTH - label.get_rect().w - 250, 0))
-		#for prop in propsprites.sprites():
-			#screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
 		pygame.display.flip()
 
 def setCamera(player):
