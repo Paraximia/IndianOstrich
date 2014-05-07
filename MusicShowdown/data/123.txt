@@ -14,3 +14,5 @@
 Power loops until first hit
 
 Nick Cage + Nyan Cat = Nyancholas Cage
+
+After defeating Little John, attack animation changes to something from that video, or perhaps during the level?
