@@ -44,10 +44,9 @@ def main():
 	minion1 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
 	minion2 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
 	minion3 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
-	minion4 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
+	#minion4 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
 	#minion list
-	minions = [minion1, minion2, minion3, minion4]
-
+	minions = [minion1, minion2, minion3]
 	#macklemore
 	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
 
@@ -56,6 +55,10 @@ def main():
 	#prop list
 	props = [prop1]
 
+	#make pipes
+	pipes = pygame.sprite.Sprite()
+	pipes.image = pygame.image.load("data/Flappy Bird/FlappyBirdPipe1.png")
+
 
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
@@ -63,6 +66,8 @@ def main():
 	propsprites = pygame.sprite.RenderPlain(props)
 	floorsprite = pygame.sprite.RenderPlain(floor)
 	macklesprite = pygame.sprite.RenderPlain(mackle)
+	pipesprite = pygame.sprite.RenderPlain(pipes)
+
 
 
 	#initialise clock
@@ -72,10 +77,10 @@ def main():
 
 	#dialogue setup
 	scene1Text = ["Player: What the fuck are you guys doing?",
-	"Others: Uhh......",
+	"Devs: Uhh......",
 	"Player: You're supposed to be making a game!",
-	"Others: OH SHIT!",
-	"Surya: Guys, let's rewrite the whole thing!",
+	"Devs: OH SHIT!",
+	"Surya: Guys, let's rewrite the whole thing",
 	"John: Yeah! How's this?" ]
 	scene1Count = 0
 
@@ -144,20 +149,39 @@ def main():
 				elif(player.health <= 0):
 					playersprite.sprites()[0].rect.x = 0
 					player.health = 100
+		#debug
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
+			player.rect.x = 3072
 		#cutscene1
-		if( player.rect.x >= 0 and player.rect.x <= 50):
+		if( player.rect.x >= 3072 and player.rect.x <= 4080):
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
 			#textbox
 			textbox = pygame.Surface((600, 100), flags=0)
 			#loop through the dialogue
 			text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
-			if(scene1Count < len(scene1Text) - 1 and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+			if(scene1Count < len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
 				text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
 				scene1Count += 1
 			#blit the textbox and the text
-			screen.blit(textbox, textPos)
-			screen.blit(text, textPos)
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+			#start the flappy bird
+			if( scene1Count == 6):
+				player.rect.x = 5088
+				player.rect.y = 500
+		#flappybirdness
+		if( player.rect.x >= 5088 and player.rect.x <= 5448):
+			player.jumping = True
+
+			if( playerFloorColls ):
+				player.rect.x == 5088
+				player.rect.y = 500
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
+				player.yVel -= 32
+				print player.rect.y
+			if( player.rect.y < 100 ):
+				player.rect.y == 100
 			
 
 		playersprite.update()
@@ -167,8 +191,11 @@ def main():
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
+		
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
+
+		screen.blit(pipesprite.sprites()[0].image, (5200 - camera.x,200 - camera.y,0,0))
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
 		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
 		screen.blit(label, (0,0))
