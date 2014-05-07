@@ -7,8 +7,7 @@ class Mackle(pygame.sprite.Sprite):
 		self.miniW = 144
 		self.miniH = 192
 		self.health = 100
-		self.miniW = 192
-		self.miniH = 256
+
 
 		self.sheet = pygame.image.load(imagepath)
 		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
