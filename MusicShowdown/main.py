@@ -89,7 +89,7 @@ def main():
 	scene2Text = [ "Austin: We can't do this! Don't be idiots",
 	"Surya: I promised them music features!",
 	"Surya: We NEED music features!",
-	"James: These aren't music features!"
+	"James: These aren't music features!",
 	"John: Let's just... Give the player some boobs?", 
 	"John: People like boobs!"
 	]
@@ -102,7 +102,11 @@ def main():
 
 	#play music
 	#pygame.mixer.music.play(start=3)
-	kills = 0
+	#kills on thriftshop
+	thriftkills = 0
+	#kills for tdfw
+	tdfwkills = 0
+	tdfwplaying = False
 
 	#font for health and other stupid stuff we write
 	pygame.font.init()
@@ -111,8 +115,11 @@ def main():
 	running = True
 	while running:
 		print player.rect.x
-		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
+		if( pygame.mixer.music.get_pos() >= 5000 and thriftkills == 0 and not tdfwplaying):
 			pygame.mixer.music.play(start=3)
+
+		if( pygame.mixer.music.get_pos() >= 18000 and tdfwkills == 0 and tdfwplaying ):
+			pygame.mixer.music.play(start=0)
 
 		if( not pygame.mixer.get_busy() ):
 			pygame.mixer.music.unpause()
@@ -142,15 +149,24 @@ def main():
 		if( playerMinionColls ):
 			#check if player.x < minion.x
 			for coll in playerMinionColls:
-				#kill the minion if the player is attacking it and it's in front
-				if coll.rect.x > player.rect.x and player.attack == 'a':
+				#kill the minion if the player is attacking it and it's in front and tdfw not playing
+				if coll.rect.x > player.rect.x and player.attack == 'a' and not tdfwplaying:
 					player.health += 10
 					#remove it -- TODO HEALTH
 					minionsprites.remove(playerMinionColls[0])
-					kills += 1
+					thriftkills += 1
 					#kick in the beat if the player gets his first kill
-					if( kills == 1):
+					if( thriftkills == 1):
 						pygame.mixer.music.play(-1, 43.5)
+				#kill the minion if the player is attacking it and it's in front and tdfw  playing
+				if coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying:
+					player.health += 10
+					#remove it -- TODO HEALTH
+					minionsprites.remove(playerMinionColls[0])
+					tdfwkills += 1
+					#kick in the beat if the player gets his first kill
+					if( tdfwkills == 1):
+						pygame.mixer.music.play(-1, 18)
 				#take away from the player's health otherwise
 				elif(player.health > 0):
 					player.health -= 5
@@ -200,6 +216,7 @@ def main():
 		#move the player over
 		if(player.rect.x >= 6000 and player.rect.x <= 7000):
 			player.rect.x = 7300
+			pygame.mixer.music.stop()
 
 		#dialogue
 		if(player.rect.x >= 7300 and player.rect.x <= 7500):
@@ -215,6 +232,18 @@ def main():
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+
+			if(scene2Count == 2 and not pygame.mixer.music.get_busy()):
+				pygame.mixer.music.load("data/music/mashup.ogg")
+				pygame.mixer.music.play()
+
+			if(scene2Count == 3):
+				pygame.mixer.music.stop()
+
+			if(scene2Count == 4 and not pygame.mixer.music.get_busy()):
+				pygame.mixer.music.load("data/music/tdfw.ogg")
+				tdfwplaying = True
+
 
 		playersprite.update()
 		minionsprites.update(player)
