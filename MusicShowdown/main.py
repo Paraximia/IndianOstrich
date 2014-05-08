@@ -2,9 +2,12 @@ import pygame
 #game imports
 from player import Player
 from minion import Minion
+from boobs import Boobs
 from prop import Prop
 from random import randint
 from mackle import Mackle 
+from dialogue import Dialogue
+from scroll import Scrolling
 
 import math
 
@@ -26,11 +29,53 @@ def main():
 	#caption
 	pygame.display.set_caption("This is a game we made, it's cool")
 
+	menuScreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	menuImage = pygame.image.load("data/menu.png")
+	menu = True
+
+	while menu:
+		menuScreen.fill(pygame.Color(0,0,0))
+		menuScreen.blit(menuImage, (0,0,0,0))
+
+		for menuEvent in pygame.event.get():
+			if menuEvent.type == pygame.QUIT or (menuEvent.type == pygame.KEYDOWN and menuEvent.key == pygame.K_ESCAPE):
+				menu = False
+			if menuEvent.type == pygame.QUIT or (menuEvent.type == pygame.KEYDOWN and menuEvent.key == pygame.K_1):
+				game()
+			if menuEvent.type == pygame.QUIT or (menuEvent.type == pygame.KEYDOWN and menuEvent.key == pygame.K_2):
+				credits()
+
+		pygame.display.flip()
+
+def credits():
+	creditsScreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	credits = Scrolling( "data/credits.png", 0, -.01, 384, 960 )
+	creditSprite = pygame.sprite.RenderPlain(credits)
+	creditsBool = True
+	pygame.mixer.music.load("data/music/credits.ogg")
+	pygame.mixer.music.play()
+	setCamera(credits)
+
+	while creditsBool:
+		creditsScreen.fill(pygame.Color(0,0,0))
+		creditsScreen.blit(credits.image, (creditSprite.sprites()[0].rect.x - camera.x,creditSprite.sprites()[0].rect.y - camera.y,0,0))
+
+		for creditEvent in pygame.event.get():
+			if creditEvent.type == pygame.QUIT or (creditEvent.type == pygame.KEYDOWN and creditEvent.key == pygame.K_ESCAPE):
+				creditsBool = False
+				pygame.mixer.music.stop()
+
+		creditSprite.update()
+		pygame.display.flip()
+
+
+def game():
 	#create screen
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 	#setup music
 	pygame.mixer.init()
-	pygame.mixer.music.load("data/thrift/thrift.ogg")
+
+	pygame.mixer.music.load("data/music/thrift.ogg")
 
 	#make a floor sprite
 	floorSpawn = pygame.Rect(0, BG_HEIGHT - 64, 0, 0)
@@ -41,57 +86,119 @@ def main():
 	setCamera(player)
 
 	#initialize minion objects here
-<<<<<<< HEAD
 	minion1 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
 	minion2 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
 	minion3 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
-	minion4 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
-=======
-	minion1 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=1000)
-	minion2 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=3000)
-	minion3 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=4000)
-	minion4 = Minion("data/moo.png", SCREEN_WIDTH, SCREEN_HEIGHT, spawnPoint=6700)
->>>>>>> pygame
+	minion4 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(9200, floorSpawn.y, 0, 0))
+	minion5 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(9700, floorSpawn.y, 0, 0))
+	minion6 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(10300, floorSpawn.y, 0, 0))
 	#minion list
-	minions = [minion1, minion2, minion3, minion4]
-
+	minions = [minion1, minion2, minion3, minion4, minion5, minion6]
 	#macklemore
-	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
+	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(13500,floorSpawn.y,0,0))
 
 	#initialize prop objects here
-	prop1 = Prop("data/poo.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(1700, BG_WIDTH - 192 - 64, 0, 0))
+	upPipe = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 700, 0, 0))
+	downPipe = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 0, 0, 0))
+
+	upPipe2 = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6200, 700, 0, 0))
+	downPipe2 = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6200, 0, 0, 0))
+
+	upPipe3 = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6450, 700, 0, 0))
+	downPipe3 = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6450, 0, 0, 0))
+
+	upPipe4 = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6700, 700, 0, 0))
+	downPipe4 = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6700, 0, 0, 0))
+
+
 	#prop list
-	props = [prop1]
+	pipes = [upPipe, downPipe, upPipe2, downPipe2, upPipe3, downPipe3, upPipe4, downPipe4]
 
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
-	propsprites = pygame.sprite.RenderPlain(props)
 	floorsprite = pygame.sprite.RenderPlain(floor)
 	macklesprite = pygame.sprite.RenderPlain(mackle)
+	pipesprites = pygame.sprite.RenderPlain(pipes)
+
+
 
 	#initialise clock
 	clock = pygame.time.Clock()
 
 	screen.fill(pygame.Color(0,0,0))
 
+	#dialogue setup
+	scene1Text = [Dialogue("Player: What the f**k are you guys doing?", pygame.mixer.Sound("data/lines/playerLine1.ogg")),
+	Dialogue("Devs: Uhh......", pygame.mixer.Sound("data/lines/playerLine3.ogg")),
+	Dialogue("Player: You're supposed to be making a game!", pygame.mixer.Sound("data/lines/playerLine2.ogg")),
+	Dialogue("Devs: Uhh....",pygame.mixer.Sound("data/lines/playerLine3.ogg")),
+	Dialogue("Surya: Guys, let's rewrite the whole thing", pygame.mixer.Sound("data/lines/suryaLine1.ogg")),
+	Dialogue("John: Yeah! How's this?", pygame.mixer.Sound("data/lines/johnLine1.ogg")) ]
+	scene1Count = 0
+
+	#scene2
+	scene2Text = [ Dialogue("Austin: We can't do this! Don't be idiots", pygame.mixer.Sound("data/lines/austinLine1.ogg")),
+	Dialogue("Surya: I promised them music features!", pygame.mixer.Sound("data/lines/suryaLine2.ogg")),
+	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/lines/suryaLine3.ogg")),
+	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/music/shmashup.ogg")),
+	Dialogue("John: Guys, these features suck.", pygame.mixer.Sound("data/lines/johnLine7.ogg"))
+	]
+	scene2Count = 0
+
+	#scene3
+	scene3Text = [ Dialogue("Player: ???", pygame.mixer.Sound("data/lines/playerLine3.ogg")),
+	Dialogue("John: Leave us alone!!!", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
+	Dialogue("Player: Your ideas are bad and you should feel bad.", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/lines/jamesLine3.ogg")),
+	Dialogue("James: Just do a boss fight instead!", pygame.mixer.Sound("data/lines/jamesLine4.ogg")),
+	]
+	scene3Count = 0
+
+	scene4Text = [Dialogue("Austin: Dude... He's walking backwards", pygame.mixer.Sound("data/lines/austinLine3.ogg")), 
+	Dialogue("John: Screw it! There's no time!", pygame.mixer.Sound("data/lines/johnLine5.ogg"))
+	]
+	scene4Count = 0
+
+	scene5Text =[ Dialogue("Surya: Are we breaking the 4th wall too much?", pygame.mixer.Sound("data/lines/suryaLine4.ogg")),
+	Dialogue("John: Screw the 4th wall! Let's go find the 5th.", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
+	Dialogue("Player: Your ideas are bad and you should feel bad.", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/lines/jamesLine3.ogg")),
+	Dialogue("James: Just do a boss fight instead!", pygame.mixer.Sound("data/lines/jamesLine4.ogg")),
+	]
+
+
 	#setup sound effects
+	flappyStart = pygame.mixer.Sound('data/music/flappyEffect.ogg')
+	flappyCoin = pygame.mixer.Sound('data/music/flappyCoin.ogg')
+	flappyDeath = pygame.mixer.Sound('data/music/flappyDeath.ogg')
+	flappyFlap = pygame.mixer.Sound('data/music/flappyFlap.ogg')
 	effects = []
-	effects.append(pygame.mixer.Sound('data/thrift/99c.ogg'))
-	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
+	effects.append(pygame.mixer.Sound('data/music/99c.ogg'))
+	effects.append(pygame.mixer.Sound('data/music/brand.ogg'))
 
 	#play music
-	pygame.mixer.music.play(-1,3)
-	kills = 0
+	pygame.mixer.music.play(start=3)
+	#kills on thriftshop
+	thriftkills = 0
+	#kills for tdfw
+	tdfwkills = 0
+	tdfwplaying = False
+	thriftPlaying = False
+	mackleFight = False
 
 	#font for health and other stupid stuff we write
 	pygame.font.init()
 	myfont = pygame.font.SysFont("monospace", 20)
 
-	running = True
-	while running:
-		if( pygame.mixer.music.get_pos() >= 5000 and kills == 0):
-			pygame.mixer.music.play(-1,3)
+	gameRunning = True
+	while gameRunning:
+		print player.rect.x
+		if( pygame.mixer.music.get_pos() >= 5000 and thriftkills == 0 and not tdfwplaying):
+			pygame.mixer.music.play(start=3)
+
+		if( pygame.mixer.music.get_pos() >= 12534 and tdfwkills == 0 and tdfwplaying ):
+			pygame.mixer.music.play(start=0.225)
 
 		if( not pygame.mixer.get_busy() ):
 			pygame.mixer.music.unpause()
@@ -99,7 +206,8 @@ def main():
 		clock.tick(9) #9 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-				running = False
+				gameRunning = False
+				pygame.mixer.music.stop()
 			else:
 				player.handleInput(event)
 		setCamera(player)
@@ -121,40 +229,225 @@ def main():
 		if( playerMinionColls ):
 			#check if player.x < minion.x
 			for coll in playerMinionColls:
-				#kill the minion if the player is attacking it and it's in front
-				if coll.rect.x > player.rect.x and player.attack == 'a':
+				#if tdfw playing and mini not hit
+				if (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l'))
+				 and player.attack == 'a' and tdfwplaying and coll.hit == 0):
+					coll.hit = 1
+					tdfwkills += 1
+					#kick in the beat if the player gets his first kill
+					if( tdfwkills == 1):
+						pygame.mixer.music.play(-1, 18)
+
+				#if the player is attacking it and it's in front and tdfw  playing and mini hit
+				elif (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l')) and 
+				player.attack == 'a' and tdfwplaying and coll.hit == 1):
 					player.health += 10
 					#remove it -- TODO HEALTH
 					minionsprites.remove(playerMinionColls[0])
-					kills += 1
+
+				#kill the minion if the player is attacking it and it's in front and tdfw not playing
+				elif (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l')) and 
+				player.attack == 'a' and not tdfwplaying):
+					player.health += 10
+					#remove it -- TODO HEALTH
+					minionsprites.remove(playerMinionColls[0])
+					thriftkills += 1
 					#kick in the beat if the player gets his first kill
-					if( kills == 1):
+					if( thriftkills == 1):
 						pygame.mixer.music.play(-1, 43.5)
+				
 				#take away from the player's health otherwise
 				elif(player.health > 0):
 					player.health -= 5
-					
-					pygame.mixer.music.pause()
-					effects[0].play()
 				elif(player.health <= 0):
-					playersprite.sprites()[0].rect.x = 0
+					if( tdfwplaying ):
+						playersprite.sprites()[0].rect.x = 8500
+					else:
+						playersprite.sprites()[0].rect.x = 0
 					player.health = 100
+		playerMackleColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], macklesprite, False) )
+		if( playerMackleColls):
+			if (((macklesprite.sprites()[0].rect.x > player.rect.x and player.status == 'r') or (macklesprite.sprites()[0].rect.x < player.rect.x and player.status == 'l'))
+				 and player.attack == 'a'):
+				macklesprite.sprites()[0].health -= 5
+				if(macklesprite.sprites()[0].health <= 0):
+					macklesprite.remove(macklesprite.sprites()[0])
+			elif(player.health > 0):
+				player.health -= 5
+			elif(player.health <= 0):
+				playersprite.sprites()[0].rect.x = 12860
+				player.health = 100 
+
+		#debug
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_f):
+			player.rect.x = 11000
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
+			player.rect.x = 7300
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
+			player.rect.x = 3072
+		#cutscene1
+		if( player.rect.x >= 3072 and player.rect.x <= 4080 and scene1Count < len(scene1Text)):
+			pygame.mixer.music.stop()
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene1Text[scene1Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene1Text[scene1Count].played):
+				scene1Text[scene1Count].sound.play()
+				scene1Text[scene1Count].played = True
+
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+				scene1Count += 1
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+			#start the flappy bird
+			if( scene1Count == 6):
+				flappyStart.play()
+				player.rect.x = 5088
+				player.rect.y = 500
+
+		#FLAPPYBIRDSCENE
+		if( player.rect.x >= 5088 and player.rect.x <= 7200):
+			pygame.mixer.music.stop()
+			player.jumping = True
+			#kill player if he hits the floor or touches pipe
+			playerPipeColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], pipesprites, False) )
+			if( playerFloorColls or playerPipeColls):
+				flappyDeath.play()
+				player.rect.x = 5088
+				player.rect.y = 500
+
+			#let player jump around and shitz
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
+				flappyFlap.play()
+				player.yVel -= 16
+				print player.rect.y
+
+			if((player.rect.x >= 5544 and player.rect.x <= 5568) or 
+				(player.rect.x >= 6200 and player.rect.x <= 6220) or 
+				(player.rect.x >= 6450 and player.rect.x <= 6470) or 
+				(player.rect.x >= 6700 and player.rect.x <= 6720)):
+				flappyCoin.play()
+			#cap the height--broken af
+			if( player.rect.y < 100 ):
+				player.rect.y == 100
+
+		#BOOBSSCENE
+		#move the player over
+		if(player.rect.x >= 6900 and player.rect.x <= 7400):
+			player.rect.x = 8500
+			pygame.mixer.music.stop()
+			scene2Text[0].sound.play()
+			scene2Text[0].played = True
+
+		#cutscene2
+		if(player.rect.x >= 8500 and player.rect.x <= 8700 and scene2Count < len(scene2Text)):
+			pygame.mixer.music.stop()
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene2Text[scene2Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene2Text[scene2Count].played):
+				scene2Text[scene2Count].sound.play()
+				scene2Text[scene2Count].played = True
+
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+				scene2Count += 1
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+
+			if( scene2Count == 4 and not scene2Text[4].played):
+				pygame.mixer.stop()
+				scene2Text[4].sound.play()
+				scene2Text[4].played = True
+		elif scene2Count == 5:
+			pygame.mixer.music.load("data/music/tdfw.ogg")
+			pygame.mixer.music.play(start=0.225)
+			tdfwplaying = True
+			scene2Count = 6
+
+		#cutscene3
+		if(player.rect.x >= 11000 and player.rect.x <= 12500 and scene3Count < len(scene3Text)):
+			pygame.mixer.music.stop()
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene3Text[scene3Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene3Text[scene3Count].played):
+				scene3Text[scene3Count].sound.play()
+				scene3Text[scene3Count].played = True
+
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+				scene3Count += 1
+
+			#if( scene3Text[4].played ):
+				#mackleFight = True
+				#player.rect.x = 12800
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+		elif( scene3Count == 5 ):
+			player.rect.x = 12800
+			player.health = 100
+			mackleFight = True
+			scene3Count = 6
+
+		#cutscene4--macklefight
+		if(player.rect.x >= 12800 and player.rect.x <= 12810 and scene4Count < len(scene4Text)):
+			pygame.mixer.music.stop()
+			tdfwplaying = False
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene4Text[scene4Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene4Text[scene4Count].played):
+				scene4Text[scene4Count].sound.play()
+				scene4Text[scene4Count].played = True
+
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+				scene4Count += 1
+
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+
 
 		playersprite.update()
 		minionsprites.update(player)
-		macklesprite.update(player)
-		propsprites.update()
+		if(player.rect.x >= 12850):
+			macklesprite.update(player)
+			if( not thriftPlaying ):
+				pygame.mixer.music.load("data/music/thrift.ogg")
+				pygame.mixer.music.play()
+				thriftPlaying = True
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
-		screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
+		if(mackle.health > 0):
+			screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
+		
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
+
+		#render upPipes
+		for pipe in pipesprites.sprites() :
+			screen.blit(pipe.image, (pipe.rect.x - camera.x,pipe.rect.y - camera.y,0,0))
+
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
-		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
+		if( player.rect.x >= 12800 and mackle.health > 0):
+			label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))	
+			screen.blit(label2, (SCREEN_WIDTH - label.get_rect().w - 250, 0))		
 		screen.blit(label, (0,0))
-		screen.blit(label2, (SCREEN_WIDTH - label.get_rect().w - 250, 0))
-		#for prop in propsprites.sprites():
-			#screen.blit( prop.image, (prop.rect.x - camera.x, prop.rect.y - camera.y))
+
 		pygame.display.flip()
 
 def setCamera(player):

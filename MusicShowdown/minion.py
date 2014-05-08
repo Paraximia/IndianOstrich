@@ -5,6 +5,7 @@ class Minion(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		self.miniW = 192/2
 		self.miniH = 276/2
+		self.hit = 0
 
 		self.sheet = pygame.image.load(imagepath)
 		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
@@ -38,20 +39,6 @@ class Minion(pygame.sprite.Sprite):
 		else:
 			self.frame = 0
 		
-		#if( self.xVel < 0 ):
-			#change status to left
-			#self.status = False
-			#go to next frame
-			#self.frame += 1
-		#elif( self.xVel > 0 ):
-			#change status to right
-			#self.status = True
-			#go to next frame
-			#self.frame +=1
-		#if standing
-		#else:
-			#reset the animation
-			#self.frame = 0
 		#looping
 		if( self.frame >= 4):
 			self.frame = 0
@@ -64,7 +51,7 @@ class Minion(pygame.sprite.Sprite):
 			self.image = self.leftWalk[self.frame]
 
 	def move(self):
-		speed = 32
+		speed = 16
 		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 ):
 			self.status = not self.status
 		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False):
