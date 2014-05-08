@@ -16,6 +16,7 @@ Enter MusicShowdown
 Scene IV
 Surya: I promised them music features! We NEED music features!
 A whole lot of indiscernible music starts playing
+James: THESE AREN'T MUSIC FEATURES!
 John: Let's just... Give the player some boobs? People like boobs!
 Enter boobs
 Return control to player 

@@ -30,7 +30,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 	#setup music
 	pygame.mixer.init()
-	pygame.mixer.music.load("data/thrift/thrift.ogg")
+	pygame.mixer.music.load("data/music/thrift.ogg")
 
 	#make a floor sprite
 	floorSpawn = pygame.Rect(0, BG_HEIGHT - 64, 0, 0)
@@ -84,10 +84,20 @@ def main():
 	"John: Yeah! How's this?" ]
 	scene1Count = 0
 
+	#scene2
+	scene2Text = [ "Austin: We can't do this! Don't be idiots",
+	"Surya: I promised them music features!",
+	"Surya: We NEED music features!",
+	"James: These aren't music features!"
+	"John: Let's just... Give the player some boobs?", 
+	"John: People like boobs!"
+	]
+	scene2Count = 0
+
 	#setup sound effects
 	effects = []
-	effects.append(pygame.mixer.Sound('data/thrift/99c.ogg'))
-	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
+	effects.append(pygame.mixer.Sound('data/music/99c.ogg'))
+	effects.append(pygame.mixer.Sound('data/music/brand.ogg'))
 
 	#play music
 	#pygame.mixer.music.play(start=3)
@@ -151,7 +161,7 @@ def main():
 					player.health = 100
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
-			player.rect.x = 3072
+			player.rect.x = 3000
 		#cutscene1
 		if( player.rect.x >= 3072 and player.rect.x <= 4080):
 			#where the text shows up
@@ -161,7 +171,6 @@ def main():
 			#loop through the dialogue
 			text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
 			if(scene1Count < len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
-				text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
 				scene1Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
@@ -170,19 +179,41 @@ def main():
 			if( scene1Count == 6):
 				player.rect.x = 5088
 				player.rect.y = 500
-		#flappybirdness
-		if( player.rect.x >= 5088 and player.rect.x <= 5448):
-			player.jumping = True
 
+		#FLAPPYBIRDSCENE
+		if( player.rect.x >= 5088 and player.rect.x <= 6500):
+			player.jumping = True
+			#kill player if he hits the floor
 			if( playerFloorColls ):
-				player.rect.x == 5088
+				player.rect.x = 5088
 				player.rect.y = 500
+			#let player jump around and shitz
 			if(event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
-				player.yVel -= 32
+				player.yVel -= 16
 				print player.rect.y
+			#cap the height--broken af
 			if( player.rect.y < 100 ):
 				player.rect.y == 100
-			
+
+		#BOOBSSCENE
+		#move the player over
+		if(player.rect.x >= 6000 and player.rect.x <= 7000):
+			player.rect.x = 7300
+
+		#dialogue
+		if(player.rect.x >= 7300 and player.rect.x <= 7500):
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene2Text[scene2Count], 1, (255,255,0))
+
+			if(scene2Count < len(scene2Text) - 1 and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+				scene2Count += 1
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 
 		playersprite.update()
 		minionsprites.update(player)
