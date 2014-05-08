@@ -49,7 +49,7 @@ def main():
 
 def credits():
 	creditsScreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-	credits = Scrolling( "data/credits.png", 0, -0.000001, 384, 960 )
+	credits = Scrolling( "data/credits.png", 0, -.01, 384, 960 )
 	creditSprite = pygame.sprite.RenderPlain(credits)
 	creditsBool = True
 	pygame.mixer.music.load("data/music/credits.ogg")
@@ -184,6 +184,7 @@ def game():
 	#kills for tdfw
 	tdfwkills = 0
 	tdfwplaying = False
+	thriftPlaying = False
 	mackleFight = False
 
 	#font for health and other stupid stuff we write
@@ -425,10 +426,10 @@ def game():
 		minionsprites.update(player)
 		if(player.rect.x >= 12850):
 			macklesprite.update(player)
-			if( not tdfwplaying ):
-				pygame.mixer.music.load("data/music/tdfw.ogg")
+			if( not thriftPlaying ):
+				pygame.mixer.music.load("data/music/thrift.ogg")
 				pygame.mixer.music.play()
-				tdfwplaying = True
+				thriftPlaying = True
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		if(mackle.health > 0):
