@@ -58,19 +58,19 @@ class Boobs(pygame.sprite.Sprite):
 		#check status and hit and change image
 		elif( self.status == True and self.hit == 1 ):
 			self.image = self.hitRightWalk[self.frame]
-			#self.rect = self.image.get_rect()
+			self.rect = self.image.get_rect()
 		elif( self.status == False and self.hit == 1 ):
 			self.image = self.hitLeftWalk[self.frame]
 
 	def move(self):
 		speed = 16
-		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 ):
+		if( self.rect.x + self.rect.w == self.spawnPoint.x + 768 or self.rect.x + self.rect.w == self.spawnPoint.x - 192 and self.hit == 0 ):
 			self.status = not self.status
-		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False):
+		if( self.rect.x + self.rect.w > self.spawnPoint.x - 192 and self.status == False and self.hit == 0):
 			self.xVel = -speed
 			self.rect.x += self.xVel
 			#print self.rect.x + self.rect.w
-		if( self.rect.x + self.rect.w < self.spawnPoint.x + 768 and self.status == True):
+		if( self.rect.x + self.rect.w < self.spawnPoint.x + 768 and self.status == True and self.hit == 0):
 			self.xVel = speed
 			self.rect.x += self.xVel
 
