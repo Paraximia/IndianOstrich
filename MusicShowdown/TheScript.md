@@ -32,6 +32,8 @@ Player: Your ideas are bad and you should feel bad.
 James: He's right, This is awful! 
 James: Just do a boss fight instead!
 John: K, I got this.
+
+Scene VI
 Enter Mackle. Thrift Shop resumes.
 Austin: Dude... He's walking backwards
 John: Fuck it(?) There's no time!
