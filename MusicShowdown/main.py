@@ -199,6 +199,8 @@ def game():
 
 		if( pygame.mixer.music.get_pos() >= 12534 and tdfwkills == 0 and tdfwplaying ):
 			pygame.mixer.music.play(start=0.225)
+		if( pygame.mixer.music.get_pos() >= 2537 and thriftPlaying ):
+			pygame.mixer.music.play(start=0)
 
 		if( not pygame.mixer.get_busy() ):
 			pygame.mixer.music.unpause()
@@ -268,11 +270,11 @@ def game():
 		playerMackleColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], macklesprite, False) )
 		if( playerMackleColls):
 			if (((macklesprite.sprites()[0].rect.x > player.rect.x and player.status == 'r') or (macklesprite.sprites()[0].rect.x < player.rect.x and player.status == 'l'))
-				 and player.attack == 'a'):
+				 and player.attack == 'a' and pygame.mixer.music.get_pos() >= 1273 and pygame.mixer.music.get_pos() <= 2537):
 				macklesprite.sprites()[0].health -= 5
 				if(macklesprite.sprites()[0].health <= 0):
 					macklesprite.remove(macklesprite.sprites()[0])
-			elif(player.health > 0):
+			elif(player.health > 0 and pygame.mixer.music.get_pos() <= 1273):
 				player.health -= 5
 			elif(player.health <= 0):
 				playersprite.sprites()[0].rect.x = 12860
@@ -280,7 +282,7 @@ def game():
 
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_f):
-			player.rect.x = 11000
+			player.rect.x = 12850
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
 			player.rect.x = 7300
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
@@ -424,11 +426,11 @@ def game():
 
 		playersprite.update()
 		minionsprites.update(player)
-		if(player.rect.x >= 12850):
+		if(player.rect.x >= 12650 and pygame.mixer.music.get_pos() <= 1273):
 			macklesprite.update(player)
 			if( not thriftPlaying ):
-				pygame.mixer.music.load("data/music/thrift.ogg")
-				pygame.mixer.music.play()
+				pygame.mixer.music.load("data/music/boss.ogg")
+				pygame.mixer.music.play(-1)
 				thriftPlaying = True
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))

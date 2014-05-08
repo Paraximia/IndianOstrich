@@ -53,7 +53,7 @@ class Mackle(pygame.sprite.Sprite):
 			self.image = self.leftWalk[self.frame]
 
 	def move(self):
-		speed = 24
+		speed = 16
 		if( self.rect.x + self.rect.w == self.spawnPoint.x + 864 or self.rect.x + self.rect.w == self.spawnPoint.x - 144 ):
 			self.status = not self.status
 		if( self.rect.x + self.rect.w > self.spawnPoint.x - 144 and self.status == False):
