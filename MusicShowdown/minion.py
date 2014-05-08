@@ -39,20 +39,6 @@ class Minion(pygame.sprite.Sprite):
 		else:
 			self.frame = 0
 		
-		#if( self.xVel < 0 ):
-			#change status to left
-			#self.status = False
-			#go to next frame
-			#self.frame += 1
-		#elif( self.xVel > 0 ):
-			#change status to right
-			#self.status = True
-			#go to next frame
-			#self.frame +=1
-		#if standing
-		#else:
-			#reset the animation
-			#self.frame = 0
 		#looping
 		if( self.frame >= 4):
 			self.frame = 0

@@ -52,7 +52,7 @@ def main():
 	#minion list
 	minions = [minion1, minion2, minion3, minion4, minion5, minion6]
 	#macklemore
-	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
+	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(13000,floorSpawn.y,0,0))
 
 	#initialize prop objects here
 	upPipe = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 700, 0, 0))
@@ -135,6 +135,7 @@ def main():
 	#kills for tdfw
 	tdfwkills = 0
 	tdfwplaying = False
+	mackleFight = False
 
 	#font for health and other stupid stuff we write
 	pygame.font.init()
@@ -180,7 +181,6 @@ def main():
 				#if tdfw playing and mini not hit
 				if (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l'))
 				 and player.attack == 'a' and tdfwplaying and coll.hit == 0):
-					print 'hit = 0?'
 					coll.hit = 1
 					tdfwkills += 1
 					#kick in the beat if the player gets his first kill
@@ -190,7 +190,6 @@ def main():
 				#if the player is attacking it and it's in front and tdfw  playing and mini hit
 				elif (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l')) and 
 				player.attack == 'a' and tdfwplaying and coll.hit == 1):
-					print 'hit = 1?'
 					player.health += 10
 					#remove it -- TODO HEALTH
 					minionsprites.remove(playerMinionColls[0])
@@ -212,9 +211,26 @@ def main():
 				elif(player.health <= 0):
 					if( tdfwplaying ):
 						playersprite.sprites()[0].rect.x = 8500
+					if( mackleFight ):
+						playersprite.sprites()[0].rect.x = 12800
 					else:
 						playersprite.sprites()[0].rect.x = 0
 					player.health = 100
+		playerMackleColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], macklesprite, False) )
+		if( playerMackleColls):
+			if (((macklesprite.sprites()[0].rect.x > player.rect.x and player.status == 'r') or (macklesprite.sprites()[0].rect.x < player.rect.x and player.status == 'l'))
+				 and player.attack == 'a'):
+				macklesprite.sprites()[0].health -= 5
+				if(macklesprite.sprites()[0].health <= 0):
+					macklesprite.remove(macklesprite.sprites()[0])
+			elif(player.health > 0):
+				player.health -= 5
+			elif(player.health <= 0):
+				playersprite.sprites()[0].rect.x = 12800
+				player.health = 100 
+
+
+
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_f):
 			player.rect.x = 11000
@@ -324,6 +340,7 @@ def main():
 				scene3Count += 1
 
 			if( scene3Text[4].played ):
+				mackleFight = True
 				player.rect.x = 12800
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
@@ -332,10 +349,12 @@ def main():
 
 		playersprite.update()
 		minionsprites.update(player)
-		macklesprite.update(player)
+		if(player.rect.x >= 12800):
+			macklesprite.update(player)
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
-		screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
+		if(mackle.health > 0):
+			screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
 		
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
@@ -345,9 +364,11 @@ def main():
 			screen.blit(pipe.image, (pipe.rect.x - camera.x,pipe.rect.y - camera.y,0,0))
 
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
-		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
+		if( player.rect.x >= 12800 and mackle.health > 0):
+			label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))	
+			screen.blit(label2, (SCREEN_WIDTH - label.get_rect().w - 250, 0))		
 		screen.blit(label, (0,0))
-		screen.blit(label2, (SCREEN_WIDTH - label.get_rect().w - 250, 0))
+
 		pygame.display.flip()
 
 def setCamera(player):
