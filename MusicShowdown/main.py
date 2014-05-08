@@ -105,6 +105,20 @@ def main():
 	]
 	scene2Count = 0
 
+	#scene3
+	scene3Text = [ Dialogue("Player: ???", pygame.mixer.Sound("data/lines/playerLine3.ogg")),
+	Dialogue("John: I gave you boobs, leave us alone.", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
+	Dialogue("Player: Your ideas are bad and you should feel bad.", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/music/jamesLine3.ogg")),
+	Dialogue("James: Just do a boss fight instead!", pygame.mixer.Sound("data/lines/jamesLine4.ogg")),
+	]
+	scene3Count = 0
+
+	scene4Text = [Dialogue("Austin: Dude... He's walking backwards", pygame.mixer.Sound("data/lines/austinLine3.ogg")), 
+	Dialogue("John: Screw it! There's no time!", pygame.mixer.Sound("data/lines/johnLine4.ogg"))
+	]
+	scene4Count = 0
+
 	#setup sound effects
 	flappyStart = pygame.mixer.Sound('data/music/flappyEffect.ogg')
 	flappyCoin = pygame.mixer.Sound('data/music/flappyCoin.ogg')
@@ -202,6 +216,8 @@ def main():
 						playersprite.sprites()[0].rect.x = 0
 					player.health = 100
 		#debug
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_f):
+			player.rect.x = 11000
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
 			player.rect.x = 7300
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
@@ -290,6 +306,28 @@ def main():
 			pygame.mixer.music.load("data/music/tdfw.ogg")
 			pygame.mixer.music.play(start=0.225)
 			tdfwplaying = True
+
+		#cutscene3
+		if(player.rect.x >= 11000 and player.rect.x <= 12500 and scene3Count < len(scene3Text)):
+			pygame.mixer.music.stop()
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene3Text[scene3Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene3Text[scene3Count].played):
+				scene3Text[scene3Count].sound.play()
+				scene3Text[scene3Count].played = True
+
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+				scene3Count += 1
+
+			if( scene3Text[4].played ):
+				player.rect.x = 12800
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 
 
 		playersprite.update()
