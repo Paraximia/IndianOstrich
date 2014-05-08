@@ -3,8 +3,8 @@ import pygame
 class Minion(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-		self.miniW = 192/2
-		self.miniH = 276/2
+		self.miniW = 192
+		self.miniH = 96
 		
 		#health
 		self.hit = 0
