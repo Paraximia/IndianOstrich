@@ -2,6 +2,7 @@ import pygame
 #game imports
 from player import Player
 from minion import Minion
+from boobs import Boobs
 from prop import Prop
 from random import randint
 from mackle import Mackle 
@@ -44,9 +45,11 @@ def main():
 	minion1 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
 	minion2 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
 	minion3 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
-	#minion4 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2700, floorSpawn.y, 0, 0))
+	minion4 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(7800, floorSpawn.y, 0, 0))
+	minion5 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(8600, floorSpawn.y, 0, 0))
+	minion6 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(9400, floorSpawn.y, 0, 0))
 	#minion list
-	minions = [minion1, minion2, minion3]
+	minions = [minion1, minion2, minion3, minion4, minion5, minion6]
 	#macklemore
 	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
 
@@ -153,7 +156,7 @@ def main():
 					#kick in the beat if the player gets his first kill
 					if( thriftkills == 1):
 						pygame.mixer.music.play(-1, 43.5)
-				#kill the minion if the player is attacking it and it's in front and tdfw  playing
+				#if the player is attacking it and it's in front and tdfw  playing and mini hit
 				if coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying and minion.hit == 1:
 					player.health += 10
 					#remove it -- TODO HEALTH
@@ -162,6 +165,9 @@ def main():
 					#kick in the beat if the player gets his first kill
 					if( tdfwkills == 1):
 						pygame.mixer.music.play(-1, 18)
+				#if tdfw playing and mini not hit
+				elif coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying and minion.hit == 0:
+					minion.hit = 1
 				#take away from the player's health otherwise
 				elif(player.health > 0):
 					player.health -= 5
