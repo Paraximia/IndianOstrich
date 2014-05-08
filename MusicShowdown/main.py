@@ -128,7 +128,7 @@ def main():
 
 	running = True
 	while running:
-		print player.rect.x
+		#print player.rect.x
 		if( pygame.mixer.music.get_pos() >= 5000 and thriftkills == 0 and not tdfwplaying):
 			pygame.mixer.music.play(start=3)
 
@@ -163,8 +163,27 @@ def main():
 		if( playerMinionColls ):
 			#check if player.x < minion.x
 			for coll in playerMinionColls:
+				#if tdfw playing and mini not hit
+				if (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l'))
+				 and player.attack == 'a' and tdfwplaying and coll.hit == 0):
+					print 'hit = 0?'
+					coll.hit = 1
+					tdfwkills += 1
+					#kick in the beat if the player gets his first kill
+					if( tdfwkills == 1):
+						pygame.mixer.music.play(-1, 18)
+
+				#if the player is attacking it and it's in front and tdfw  playing and mini hit
+				elif (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l')) and 
+				player.attack == 'a' and tdfwplaying and coll.hit == 1):
+					print 'hit = 1?'
+					player.health += 10
+					#remove it -- TODO HEALTH
+					minionsprites.remove(playerMinionColls[0])
+
 				#kill the minion if the player is attacking it and it's in front and tdfw not playing
-				if coll.rect.x > player.rect.x and player.attack == 'a' and not tdfwplaying:
+				elif (((coll.rect.x > player.rect.x and player.status == 'r') or (coll.rect.x < player.rect.x and player.status == 'l')) and 
+				player.attack == 'a' and not tdfwplaying):
 					player.health += 10
 					#remove it -- TODO HEALTH
 					minionsprites.remove(playerMinionColls[0])
@@ -172,23 +191,15 @@ def main():
 					#kick in the beat if the player gets his first kill
 					if( thriftkills == 1):
 						pygame.mixer.music.play(-1, 43.5)
-				#if the player is attacking it and it's in front and tdfw  playing and mini hit
-				if coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying and minion.hit == 1:
-					player.health += 10
-					#remove it -- TODO HEALTH
-					minionsprites.remove(playerMinionColls[0])
-					tdfwkills += 1
-					#kick in the beat if the player gets his first kill
-					if( tdfwkills == 1):
-						pygame.mixer.music.play(-1, 18)
-				#if tdfw playing and mini not hit
-				elif coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying and minion.hit == 0:
-					minion.hit = 1
+				
 				#take away from the player's health otherwise
 				elif(player.health > 0):
 					player.health -= 5
 				elif(player.health <= 0):
-					playersprite.sprites()[0].rect.x = 0
+					if( tdfwplaying ):
+						playersprite.sprites()[0].rect.x = 8500
+					else:
+						playersprite.sprites()[0].rect.x = 0
 					player.health = 100
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
@@ -196,7 +207,7 @@ def main():
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
 			player.rect.x = 3072
 		#cutscene1
-		if( player.rect.x >= 3072 and player.rect.x <= 4080):
+		if( player.rect.x >= 3072 and player.rect.x <= 4080 and scene1Count < len(scene1Text)):
 			pygame.mixer.music.stop()
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
@@ -208,7 +219,7 @@ def main():
 				scene1Text[scene1Count].sound.play()
 				scene1Text[scene1Count].played = True
 
-			if(scene1Count < len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
 				scene1Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
@@ -252,8 +263,8 @@ def main():
 			scene2Text[0].sound.play()
 			scene2Text[0].played = True
 
-		#dialogue
-		if(player.rect.x >= 8500 and player.rect.x <= 8700):
+		#cutscene2
+		if(player.rect.x >= 8500 and player.rect.x <= 8700 and scene2Count < len(scene2Text)):
 			pygame.mixer.music.stop()
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
@@ -265,19 +276,20 @@ def main():
 				scene2Text[scene2Count].sound.play()
 				scene2Text[scene2Count].played = True
 
-			if(scene2Count < len(scene2Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
 				scene2Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 
-			if(scene2Count == 4 and not scene2Text[4].played):
+			if( scene2Count == 4 and not scene2Text[4].played):
+				pygame.mixer.stop()
 				scene2Text[4].sound.play()
 				scene2Text[4].played = True
-				if( not pygame.mixer.get_busy() ):
-					pygame.mixer.music.load("data/music/tdfw.ogg")
-					pygame.mixer.music.play(start=0.225)
-				tdfwplaying = True
+		elif scene2Text[6].played and not tdfwplaying:
+			pygame.mixer.music.load("data/music/tdfw.ogg")
+			pygame.mixer.music.play(start=0.225)
+			tdfwplaying = True
 
 
 		playersprite.update()
