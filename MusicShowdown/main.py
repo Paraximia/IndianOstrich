@@ -196,7 +196,7 @@ def main():
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
 			player.rect.x = 3072
 		#cutscene1
-		if( player.rect.x >= 3072 and player.rect.x <= 4080):
+		if( player.rect.x >= 3072 and player.rect.x <= 4080 and scene1Count < len(scene1Text)):
 			pygame.mixer.music.stop()
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
@@ -208,7 +208,7 @@ def main():
 				scene1Text[scene1Count].sound.play()
 				scene1Text[scene1Count].played = True
 
-			if(scene1Count < len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
 				scene1Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
@@ -252,8 +252,8 @@ def main():
 			scene2Text[0].sound.play()
 			scene2Text[0].played = True
 
-		#dialogue
-		if(player.rect.x >= 8500 and player.rect.x <= 8700):
+		#cutscene2
+		if(player.rect.x >= 8500 and player.rect.x <= 8700 and scene2Count < len(scene2Text)):
 			pygame.mixer.music.stop()
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
@@ -265,19 +265,20 @@ def main():
 				scene2Text[scene2Count].sound.play()
 				scene2Text[scene2Count].played = True
 
-			if(scene2Count < len(scene2Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
 				scene2Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 
-			if(scene2Count == 4 and not scene2Text[4].played):
+			if( scene2Count == 4 and not scene2Text[4].played):
+				pygame.mixer.stop()
 				scene2Text[4].sound.play()
 				scene2Text[4].played = True
-				if( not pygame.mixer.get_busy() ):
-					pygame.mixer.music.load("data/music/tdfw.ogg")
-					pygame.mixer.music.play(start=0.225)
-				tdfwplaying = True
+		elif scene2Text[6].played and not tdfwplaying:
+			pygame.mixer.music.load("data/music/tdfw.ogg")
+			pygame.mixer.music.play(start=0.225)
+			tdfwplaying = True
 
 
 		playersprite.update()
