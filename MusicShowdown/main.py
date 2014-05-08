@@ -51,23 +51,18 @@ def main():
 	mackle = Mackle("data/boo.png", BG_WIDTH, BG_HEIGHT, spawnPoint=floorSpawn)
 
 	#initialize prop objects here
-	prop1 = Prop("data/poo.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(1700, BG_WIDTH - 192 - 64, 0, 0))
+	upPipe = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 700, 0, 0))
+	downPipe = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 0, 0, 0))
+
 	#prop list
-	props = [prop1]
-
-	#make pipes
-	pipes = pygame.sprite.Sprite()
-	#data/uppipe and downpipe
-	pipes.image = pygame.image.load("data/Flappy Bird/FlappyBirdPipe1.png")
-
+	pipes = [upPipe, downPipe]
 
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
 	minionsprites = pygame.sprite.RenderPlain(minions)
-	propsprites = pygame.sprite.RenderPlain(props)
 	floorsprite = pygame.sprite.RenderPlain(floor)
 	macklesprite = pygame.sprite.RenderPlain(mackle)
-	pipesprite = pygame.sprite.RenderPlain(pipes)
+	pipesprites = pygame.sprite.RenderPlain(pipes)
 
 
 
@@ -118,8 +113,8 @@ def main():
 		if( pygame.mixer.music.get_pos() >= 5000 and thriftkills == 0 and not tdfwplaying):
 			pygame.mixer.music.play(start=3)
 
-		if( pygame.mixer.music.get_pos() >= 18000 and tdfwkills == 0 and tdfwplaying ):
-			pygame.mixer.music.play(start=0)
+		if( pygame.mixer.music.get_pos() >= 12534 and tdfwkills == 0 and tdfwplaying ):
+			pygame.mixer.music.play(start=0.225)
 
 		if( not pygame.mixer.get_busy() ):
 			pygame.mixer.music.unpause()
@@ -178,7 +173,9 @@ def main():
 					player.health = 100
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
-			player.rect.x = 3000
+			player.rect.x = 7300
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
+			player.rect.x = 3072
 		#cutscene1
 		if( player.rect.x >= 3072 and player.rect.x <= 4080):
 			#where the text shows up
@@ -200,10 +197,12 @@ def main():
 		#FLAPPYBIRDSCENE
 		if( player.rect.x >= 5088 and player.rect.x <= 6500):
 			player.jumping = True
-			#kill player if he hits the floor
-			if( playerFloorColls ):
+			#kill player if he hits the floor or touches pipe
+			playerPipeColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], pipesprites, False) )
+			if( playerFloorColls or playerPipeColls):
 				player.rect.x = 5088
 				player.rect.y = 500
+
 			#let player jump around and shitz
 			if(event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
 				player.yVel -= 16
@@ -242,13 +241,13 @@ def main():
 
 			if(scene2Count == 4 and not pygame.mixer.music.get_busy()):
 				pygame.mixer.music.load("data/music/tdfw.ogg")
+				pygame.mixer.music.play(start=0.225)
 				tdfwplaying = True
 
 
 		playersprite.update()
 		minionsprites.update(player)
 		macklesprite.update(player)
-		propsprites.update()
 		#draw sprites
 		screen.blit(player.image, (player.rect.x - camera.x, player.rect.y - camera.y))
 		screen.blit(mackle.image, (mackle.rect.x - camera.x, mackle.rect.y - camera.y))
@@ -256,7 +255,10 @@ def main():
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
 
-		screen.blit(pipesprite.sprites()[0].image, (5200 - camera.x,200 - camera.y,0,0))
+		#render upPipe
+		screen.blit(pipesprites.sprites()[0].image, (pipes[0].rect.x - camera.x,pipes[0].rect.y - camera.y,0,0))
+		#render downPipe
+		screen.blit(pipesprites.sprites()[1].image, (pipes[1].rect.x - camera.x,pipes[1].rect.y - camera.y,0,0))
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
 		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
 		screen.blit(label, (0,0))
