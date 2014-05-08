@@ -75,12 +75,12 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 
 	#dialogue setup
-	scene1Text = ["Player: What the f**k are you guys doing?",
-	"Devs: Uhh......",
-	"Player: You're supposed to be making a game!",
-	"Devs: OH SHIT!",
-	"Surya: Guys, let's rewrite the whole thing",
-	"John: Yeah! How's this?" ]
+	scene1Text = [("Player: What the f**k are you guys doing?", pygame.mixer.Sound("data/lines/playerLine1.ogg")),
+	("Devs: Uhh......", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	("Player: You're supposed to be making a game!", pygame.mixer.Sound("data/lines/playerLine2.ogg")),
+	("Devs: OH SHIT!",pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	("Surya: Guys, let's rewrite the whole thing", pygame.mixer.Sound("data/lines/suryaLine1.ogg")),
+	("John: Yeah! How's this?", pygame.mixer.Sound("data/lines/johnLine1.ogg")) ]
 	scene1Count = 0
 
 	#scene2
@@ -181,12 +181,16 @@ def main():
 			player.rect.x = 3072
 		#cutscene1
 		if( player.rect.x >= 3072 and player.rect.x <= 4080):
+			pygame.mixer.music.stop()
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
 			#textbox
 			textbox = pygame.Surface((600, 100), flags=0)
 			#loop through the dialogue
-			text = myfont.render(scene1Text[scene1Count], 1, (255,255,0))
+			text = myfont.render(scene1Text[scene1Count][0], 1, (255,255,0))
+			if( not pygame.mixer.get_busy() ):
+				scene1Text[scene1Count][1].play()
+
 			if(scene1Count < len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
 				scene1Count += 1
 			#blit the textbox and the text
