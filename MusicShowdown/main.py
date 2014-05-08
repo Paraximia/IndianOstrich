@@ -109,15 +109,23 @@ def main():
 	scene3Text = [ Dialogue("Player: ???", pygame.mixer.Sound("data/lines/playerLine3.ogg")),
 	Dialogue("John: I gave you boobs, leave us alone.", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
 	Dialogue("Player: Your ideas are bad and you should feel bad.", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
-	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/music/jamesLine3.ogg")),
+	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/lines/jamesLine3.ogg")),
 	Dialogue("James: Just do a boss fight instead!", pygame.mixer.Sound("data/lines/jamesLine4.ogg")),
 	]
 	scene3Count = 0
 
 	scene4Text = [Dialogue("Austin: Dude... He's walking backwards", pygame.mixer.Sound("data/lines/austinLine3.ogg")), 
-	Dialogue("John: Screw it! There's no time!", pygame.mixer.Sound("data/lines/johnLine4.ogg"))
+	Dialogue("John: Screw it! There's no time!", pygame.mixer.Sound("data/lines/johnLine5.ogg"))
 	]
 	scene4Count = 0
+
+	scene5Text =[ Dialogue("Surya: Are we breaking the 4th wall too much?", pygame.mixer.Sound("data/lines/suryaLine4.ogg")),
+	Dialogue("John: Fuck the 4th wall! Let's go find the 5th.", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
+	Dialogue("Player: Your ideas are bad and you should feel bad.", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/lines/jamesLine3.ogg")),
+	Dialogue("James: Just do a boss fight instead!", pygame.mixer.Sound("data/lines/jamesLine4.ogg")),
+	]
+
 
 	#setup sound effects
 	flappyStart = pygame.mixer.Sound('data/music/flappyEffect.ogg')
@@ -342,6 +350,26 @@ def main():
 			if( scene3Text[4].played ):
 				mackleFight = True
 				player.rect.x = 12800
+			#blit the textbox and the text
+			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
+			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
+
+		#cutscene4--macklefight
+		if(player.rect.x >= 12800 and player.rect.x <= 12810 and scene4Count < len(scene4Text)):
+			pygame.mixer.music.stop()
+			#where the text shows up
+			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
+			#textbox
+			textbox = pygame.Surface((600, 100), flags=0)
+			#loop through the dialogue
+			text = myfont.render(scene4Text[scene4Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene4Text[scene4Count].played):
+				scene4Text[scene4Count].sound.play()
+				scene4Text[scene4Count].played = True
+
+			if(event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
+				scene4Count += 1
+
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
