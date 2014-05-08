@@ -3,13 +3,8 @@ import pygame
 class Boobs(pygame.sprite.Sprite):
 	def __init__(self, imagepath, levelW, levelH, spawnPoint):
 		pygame.sprite.Sprite.__init__(self)
-<<<<<<< HEAD
 		self.miniW = 96
 		self.miniH = 192
-=======
-		self.miniW = 192/2
-		self.miniH = 96/2
->>>>>>> 8ef9079bdf104f7fef112b4498eb2a48831fe142
 		
 		#health
 		self.hit = 0

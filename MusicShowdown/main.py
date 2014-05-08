@@ -6,6 +6,7 @@ from boobs import Boobs
 from prop import Prop
 from random import randint
 from mackle import Mackle 
+from dialogue import Dialogue
 
 import math
 
@@ -75,12 +76,12 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 
 	#dialogue setup
-	scene1Text = [("Player: What the f**k are you guys doing?", pygame.mixer.Sound("data/lines/playerLine1.ogg")),
-	("Devs: Uhh......", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
-	("Player: You're supposed to be making a game!", pygame.mixer.Sound("data/lines/playerLine2.ogg")),
-	("Devs: OH SHIT!",pygame.mixer.Sound("data/lines/playerLine4.ogg")),
-	("Surya: Guys, let's rewrite the whole thing", pygame.mixer.Sound("data/lines/suryaLine1.ogg")),
-	("John: Yeah! How's this?", pygame.mixer.Sound("data/lines/johnLine1.ogg")) ]
+	scene1Text = [Dialogue("Player: What the f**k are you guys doing?", pygame.mixer.Sound("data/lines/playerLine1.ogg")),
+	Dialogue("Devs: Uhh......", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	Dialogue("Player: You're supposed to be making a game!", pygame.mixer.Sound("data/lines/playerLine2.ogg")),
+	Dialogue("Devs: OH SHIT!",pygame.mixer.Sound("data/lines/playerLine4.ogg")),
+	Dialogue("Surya: Guys, let's rewrite the whole thing", pygame.mixer.Sound("data/lines/suryaLine1.ogg")),
+	Dialogue("John: Yeah! How's this?", pygame.mixer.Sound("data/lines/johnLine1.ogg")) ]
 	scene1Count = 0
 
 	#scene2
@@ -94,6 +95,10 @@ def main():
 	scene2Count = 0
 
 	#setup sound effects
+	flappyStart = pygame.mixer.Sound('data/music/flappyEffect.ogg')
+	flappyCoin = pygame.mixer.Sound('data/music/flappyCoin.ogg')
+	flappyDeath = pygame.mixer.Sound('data/music/flappyDeath.ogg')
+	flappyFlap = pygame.mixer.Sound('data/music/flappyFlap.ogg')
 	effects = []
 	effects.append(pygame.mixer.Sound('data/music/99c.ogg'))
 	effects.append(pygame.mixer.Sound('data/music/brand.ogg'))
@@ -187,9 +192,10 @@ def main():
 			#textbox
 			textbox = pygame.Surface((600, 100), flags=0)
 			#loop through the dialogue
-			text = myfont.render(scene1Text[scene1Count][0], 1, (255,255,0))
-			if( not pygame.mixer.get_busy() ):
-				scene1Text[scene1Count][1].play()
+			text = myfont.render(scene1Text[scene1Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene1Text[scene1Count].played):
+				scene1Text[scene1Count].sound.play()
+				scene1Text[scene1Count].played = True
 
 			if(scene1Count < len(scene1Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
 				scene1Count += 1
@@ -198,6 +204,7 @@ def main():
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 			#start the flappy bird
 			if( scene1Count == 6):
+				flappyStart.play()
 				player.rect.x = 5088
 				player.rect.y = 500
 
@@ -207,13 +214,18 @@ def main():
 			#kill player if he hits the floor or touches pipe
 			playerPipeColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], pipesprites, False) )
 			if( playerFloorColls or playerPipeColls):
+				flappyDeath.play()
 				player.rect.x = 5088
 				player.rect.y = 500
 
 			#let player jump around and shitz
 			if(event.type == pygame.KEYDOWN and event.key == pygame.K_UP):
+				flappyFlap.play()
 				player.yVel -= 16
 				print player.rect.y
+
+			if(player.rect.x >= 5544 and player.rect.x <= 5568):
+				flappyCoin.play()
 			#cap the height--broken af
 			if( player.rect.y < 100 ):
 				player.rect.y == 100
