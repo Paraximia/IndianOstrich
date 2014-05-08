@@ -98,7 +98,7 @@ def main():
 	scene2Text = [ Dialogue("Austin: We can't do this! Don't be idiots", pygame.mixer.Sound("data/lines/austinLine1.ogg")),
 	Dialogue("Surya: I promised them music features!", pygame.mixer.Sound("data/lines/suryaLine2.ogg")),
 	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/lines/suryaLine3.ogg")),
-	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/music/mashup.ogg")),
+	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/music/shmashup.ogg")),
 	Dialogue("James: These aren't music features!", pygame.mixer.Sound("data/lines/jamesLine1.ogg")),
 	Dialogue("John: Let's just... Give the player some boobs?", pygame.mixer.Sound("data/lines/johnLine2.ogg")), 
 	Dialogue("James: People like boobs!", pygame.mixer.Sound("data/lines/jamesLine2.ogg"))
