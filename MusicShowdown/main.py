@@ -72,7 +72,7 @@ def main():
 	screen.fill(pygame.Color(0,0,0))
 
 	#dialogue setup
-	scene1Text = ["Player: What the fuck are you guys doing?",
+	scene1Text = ["Player: What the f**k are you guys doing?",
 	"Devs: Uhh......",
 	"Player: You're supposed to be making a game!",
 	"Devs: OH SHIT!",
@@ -154,7 +154,7 @@ def main():
 					if( thriftkills == 1):
 						pygame.mixer.music.play(-1, 43.5)
 				#kill the minion if the player is attacking it and it's in front and tdfw  playing
-				if coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying:
+				if coll.rect.x > player.rect.x and player.attack == 'a' and tdfwplaying and minion.hit == 1:
 					player.health += 10
 					#remove it -- TODO HEALTH
 					minionsprites.remove(playerMinionColls[0])
@@ -165,9 +165,6 @@ def main():
 				#take away from the player's health otherwise
 				elif(player.health > 0):
 					player.health -= 5
-					
-					pygame.mixer.music.pause()
-					effects[0].play()
 				elif(player.health <= 0):
 					playersprite.sprites()[0].rect.x = 0
 					player.health = 100

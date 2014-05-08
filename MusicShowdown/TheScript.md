@@ -32,21 +32,18 @@ Player: Your ideas are bad and you should feel bad.
 James: He's right, This is awful! 
 James: Just do a boss fight instead!
 John: K, I got this.
-Enter Shitty Li'l John
-Austin: No! That's the wrong boss
-Surya: I got this!
 Enter Mackle. Thrift Shop resumes.
 Austin: Dude... He's walking backwards
 John: Fuck it(?) There's no time!
 Return control to player. Player fights Macklemore
 
-Scene VI
+/*Scene VI
 Player walks in, the guys are at computers, surrounded by cans of monster.
 Surya: Are we breaking the 4th wall too much?
 John: Fuck the 4th wall! Let's go find the 5th.
 Austin looks at the player
 Austin: OH GOD HE'S BACK!
-Return control to player, he walks past the guys.
+Return control to player, he walks past the guys.*/
 
 Scene VII
 Well, we should probably have a final boss battle. But whom should we have him fight?
