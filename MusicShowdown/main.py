@@ -46,9 +46,9 @@ def main():
 	minion1 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(692, floorSpawn.y, 0, 0))
 	minion2 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(1500, floorSpawn.y, 0, 0))
 	minion3 = Minion("data/moo1.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(2000, floorSpawn.y, 0, 0))
-	minion4 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(7800, floorSpawn.y, 0, 0))
-	minion5 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(8600, floorSpawn.y, 0, 0))
-	minion6 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(9400, floorSpawn.y, 0, 0))
+	minion4 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(9200, floorSpawn.y, 0, 0))
+	minion5 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(9700, floorSpawn.y, 0, 0))
+	minion6 = Boobs("data/boobs.png", BG_WIDTH, BG_HEIGHT, spawnPoint=pygame.Rect(10300, floorSpawn.y, 0, 0))
 	#minion list
 	minions = [minion1, minion2, minion3, minion4, minion5, minion6]
 	#macklemore
@@ -58,8 +58,18 @@ def main():
 	upPipe = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 700, 0, 0))
 	downPipe = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(5640, 0, 0, 0))
 
+	upPipe2 = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6200, 700, 0, 0))
+	downPipe2 = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6200, 0, 0, 0))
+
+	upPipe3 = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6450, 700, 0, 0))
+	downPipe3 = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6450, 0, 0, 0))
+
+	upPipe4 = Prop("data/uppipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6700, 700, 0, 0))
+	downPipe4 = Prop("data/downpipe.png", BG_WIDTH, BG_HEIGHT, pygame.Rect(6700, 0, 0, 0))
+
+
 	#prop list
-	pipes = [upPipe, downPipe]
+	pipes = [upPipe, downPipe, upPipe2, downPipe2, upPipe3, downPipe3, upPipe4, downPipe4]
 
 	#renders all the sprites
 	playersprite = pygame.sprite.RenderPlain(player)
@@ -85,12 +95,13 @@ def main():
 	scene1Count = 0
 
 	#scene2
-	scene2Text = [ "Austin: We can't do this! Don't be idiots",
-	"Surya: I promised them music features!",
-	"Surya: We NEED music features!",
-	"James: These aren't music features!",
-	"John: Let's just... Give the player some boobs?", 
-	"John: People like boobs!"
+	scene2Text = [ Dialogue("Austin: We can't do this! Don't be idiots", pygame.mixer.Sound("data/lines/austinLine1.ogg")),
+	Dialogue("Surya: I promised them music features!", pygame.mixer.Sound("data/lines/suryaLine2.ogg")),
+	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/lines/suryaLine3.ogg")),
+	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/music/shmashup.ogg")),
+	Dialogue("James: These aren't music features!", pygame.mixer.Sound("data/lines/jamesLine1.ogg")),
+	Dialogue("John: Let's just... Give the player some boobs?", pygame.mixer.Sound("data/lines/johnLine2.ogg")), 
+	Dialogue("James: People like boobs!", pygame.mixer.Sound("data/lines/jamesLine2.ogg"))
 	]
 	scene2Count = 0
 
@@ -209,7 +220,7 @@ def main():
 				player.rect.y = 500
 
 		#FLAPPYBIRDSCENE
-		if( player.rect.x >= 5088 and player.rect.x <= 6500):
+		if( player.rect.x >= 5088 and player.rect.x <= 7200):
 			player.jumping = True
 			#kill player if he hits the floor or touches pipe
 			playerPipeColls = ( pygame.sprite.spritecollide(playersprite.sprites()[0], pipesprites, False) )
@@ -224,7 +235,10 @@ def main():
 				player.yVel -= 16
 				print player.rect.y
 
-			if(player.rect.x >= 5544 and player.rect.x <= 5568):
+			if((player.rect.x >= 5544 and player.rect.x <= 5568) or 
+				(player.rect.x >= 6200 and player.rect.x <= 6220) or 
+				(player.rect.x >= 6450 and player.rect.x <= 6470) or 
+				(player.rect.x >= 6700 and player.rect.x <= 6720)):
 				flappyCoin.play()
 			#cap the height--broken af
 			if( player.rect.y < 100 ):
@@ -232,35 +246,37 @@ def main():
 
 		#BOOBSSCENE
 		#move the player over
-		if(player.rect.x >= 6000 and player.rect.x <= 7000):
-			player.rect.x = 7300
+		if(player.rect.x >= 6900 and player.rect.x <= 7400):
+			player.rect.x = 8500
 			pygame.mixer.music.stop()
+			scene2Text[0].sound.play()
+			scene2Text[0].played = True
 
 		#dialogue
-		if(player.rect.x >= 7300 and player.rect.x <= 7500):
+		if(player.rect.x >= 8500 and player.rect.x <= 8700):
+			pygame.mixer.music.stop()
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
 			#textbox
 			textbox = pygame.Surface((600, 100), flags=0)
 			#loop through the dialogue
-			text = myfont.render(scene2Text[scene2Count], 1, (255,255,0))
+			text = myfont.render(scene2Text[scene2Count].text, 1, (255,255,0))
+			if( not pygame.mixer.get_busy() and not scene2Text[scene2Count].played):
+				scene2Text[scene2Count].sound.play()
+				scene2Text[scene2Count].played = True
 
-			if(scene2Count < len(scene2Text) - 1 and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
+			if(scene2Count < len(scene2Text) and (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE)):
 				scene2Count += 1
 			#blit the textbox and the text
 			screen.blit(textbox, (textPos.x - camera.x, textPos.y - camera.y))
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 
-			if(scene2Count == 2 and not pygame.mixer.music.get_busy()):
-				pygame.mixer.music.load("data/music/mashup.ogg")
-				pygame.mixer.music.play()
-
-			if(scene2Count == 3):
-				pygame.mixer.music.stop()
-
-			if(scene2Count == 4 and not pygame.mixer.music.get_busy()):
-				pygame.mixer.music.load("data/music/tdfw.ogg")
-				pygame.mixer.music.play(start=0.225)
+			if(scene2Count == 4 and not scene2Text[4].played):
+				scene2Text[4].sound.play()
+				scene2Text[4].played = True
+				if( not pygame.mixer.get_busy() ):
+					pygame.mixer.music.load("data/music/tdfw.ogg")
+					pygame.mixer.music.play(start=0.225)
 				tdfwplaying = True
 
 
@@ -274,10 +290,10 @@ def main():
 		for minion in minionsprites.sprites():
 			screen.blit( minion.image, ( minion.rect.x - camera.x, minion.rect.y - camera.y))
 
-		#render upPipe
-		screen.blit(pipesprites.sprites()[0].image, (pipes[0].rect.x - camera.x,pipes[0].rect.y - camera.y,0,0))
-		#render downPipe
-		screen.blit(pipesprites.sprites()[1].image, (pipes[1].rect.x - camera.x,pipes[1].rect.y - camera.y,0,0))
+		#render upPipes
+		for pipe in pipesprites.sprites() :
+			screen.blit(pipe.image, (pipe.rect.x - camera.x,pipe.rect.y - camera.y,0,0))
+
 		label = myfont.render("Health:" + str(player.health), 1, (255,255,0))
 		label2 = myfont.render("Macklemore Health:" + str(mackle.health), 1, (255,255,0))
 		screen.blit(label, (0,0))
