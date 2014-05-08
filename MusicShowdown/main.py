@@ -7,6 +7,7 @@ from prop import Prop
 from random import randint
 from mackle import Mackle 
 from dialogue import Dialogue
+from scroll import Scrolling
 
 import math
 
@@ -28,10 +29,51 @@ def main():
 	#caption
 	pygame.display.set_caption("This is a game we made, it's cool")
 
+	menuScreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	menuImage = pygame.image.load("data/menu.png")
+	menu = True
+
+	while menu:
+		menuScreen.fill(pygame.Color(0,0,0))
+		menuScreen.blit(menuImage, (0,0,0,0))
+
+		for menuEvent in pygame.event.get():
+			if menuEvent.type == pygame.QUIT or (menuEvent.type == pygame.KEYDOWN and menuEvent.key == pygame.K_ESCAPE):
+				menu = False
+			if menuEvent.type == pygame.QUIT or (menuEvent.type == pygame.KEYDOWN and menuEvent.key == pygame.K_1):
+				game()
+			if menuEvent.type == pygame.QUIT or (menuEvent.type == pygame.KEYDOWN and menuEvent.key == pygame.K_2):
+				credits()
+
+		pygame.display.flip()
+
+def credits():
+	creditsScreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+	credits = Scrolling( "data/credits.png", 0, -0.000001, 384, 960 )
+	creditSprite = pygame.sprite.RenderPlain(credits)
+	creditsBool = True
+	pygame.mixer.music.load("data/music/credits.ogg")
+	pygame.mixer.music.play()
+
+	while creditsBool:
+		creditsScreen.fill(pygame.Color(0,0,0))
+		creditsScreen.blit(credits.image, (creditSprite.sprites()[0].rect.x,creditSprite.sprites()[0].rect.y,0,0))
+
+		for creditEvent in pygame.event.get():
+			if creditEvent.type == pygame.QUIT or (creditEvent.type == pygame.KEYDOWN and creditEvent.key == pygame.K_ESCAPE):
+				creditsBool = False
+				pygame.mixer.music.stop()
+
+		creditSprite.update()
+		pygame.display.flip()
+
+
+def game():
 	#create screen
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 	#setup music
 	pygame.mixer.init()
+
 	pygame.mixer.music.load("data/music/thrift.ogg")
 
 	#make a floor sprite
@@ -120,7 +162,7 @@ def main():
 	scene4Count = 0
 
 	scene5Text =[ Dialogue("Surya: Are we breaking the 4th wall too much?", pygame.mixer.Sound("data/lines/suryaLine4.ogg")),
-	Dialogue("John: Fuck the 4th wall! Let's go find the 5th.", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
+	Dialogue("John: Screw the 4th wall! Let's go find the 5th.", pygame.mixer.Sound("data/lines/johnLine3.ogg")),
 	Dialogue("Player: Your ideas are bad and you should feel bad.", pygame.mixer.Sound("data/lines/playerLine4.ogg")),
 	Dialogue("James: He's right, This is awful!", pygame.mixer.Sound("data/lines/jamesLine3.ogg")),
 	Dialogue("James: Just do a boss fight instead!", pygame.mixer.Sound("data/lines/jamesLine4.ogg")),
@@ -137,7 +179,7 @@ def main():
 	effects.append(pygame.mixer.Sound('data/music/brand.ogg'))
 
 	#play music
-	#pygame.mixer.music.play(start=3)
+	pygame.mixer.music.play(start=3)
 	#kills on thriftshop
 	thriftkills = 0
 	#kills for tdfw
@@ -149,8 +191,8 @@ def main():
 	pygame.font.init()
 	myfont = pygame.font.SysFont("monospace", 20)
 
-	running = True
-	while running:
+	gameRunning = True
+	while gameRunning:
 		#print player.rect.x
 		if( pygame.mixer.music.get_pos() >= 5000 and thriftkills == 0 and not tdfwplaying):
 			pygame.mixer.music.play(start=3)
@@ -164,7 +206,8 @@ def main():
 		clock.tick(9) #9 fps
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-				running = False
+				gameRunning = False
+				pygame.mixer.music.stop()
 			else:
 				player.handleInput(event)
 		setCamera(player)
@@ -219,8 +262,6 @@ def main():
 				elif(player.health <= 0):
 					if( tdfwplaying ):
 						playersprite.sprites()[0].rect.x = 8500
-					if( mackleFight ):
-						playersprite.sprites()[0].rect.x = 12800
 					else:
 						playersprite.sprites()[0].rect.x = 0
 					player.health = 100
@@ -236,8 +277,6 @@ def main():
 			elif(player.health <= 0):
 				playersprite.sprites()[0].rect.x = 12800
 				player.health = 100 
-
-
 
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_f):
