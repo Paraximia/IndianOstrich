@@ -57,6 +57,7 @@ def main():
 
 	#make pipes
 	pipes = pygame.sprite.Sprite()
+	#data/uppipe and downpipe
 	pipes.image = pygame.image.load("data/Flappy Bird/FlappyBirdPipe1.png")
 
 
