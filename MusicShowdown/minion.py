@@ -5,6 +5,7 @@ class Minion(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		self.miniW = 192/2
 		self.miniH = 276/2
+		self.hit = 0
 
 		self.sheet = pygame.image.load(imagepath)
 		self.sheet.set_clip( pygame.Rect(0, 0, self.miniW, self.miniH) )
