@@ -30,7 +30,7 @@ def main():
 	screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 	#setup music
 	pygame.mixer.init()
-	pygame.mixer.music.load("data/thrift/thrift.ogg")
+	pygame.mixer.music.load("data/music/thrift.ogg")
 
 	#make a floor sprite
 	floorSpawn = pygame.Rect(0, BG_HEIGHT - 64, 0, 0)
@@ -88,6 +88,7 @@ def main():
 	scene2Text = [ "Austin: We can't do this! Don't be idiots",
 	"Surya: I promised them music features!",
 	"Surya: We NEED music features!",
+	"James: These aren't music features!"
 	"John: Let's just... Give the player some boobs?", 
 	"John: People like boobs!"
 	]
@@ -95,8 +96,8 @@ def main():
 
 	#setup sound effects
 	effects = []
-	effects.append(pygame.mixer.Sound('data/thrift/99c.ogg'))
-	effects.append(pygame.mixer.Sound('data/thrift/brand.ogg'))
+	effects.append(pygame.mixer.Sound('data/music/99c.ogg'))
+	effects.append(pygame.mixer.Sound('data/music/brand.ogg'))
 
 	#play music
 	#pygame.mixer.music.play(start=3)
@@ -160,7 +161,7 @@ def main():
 					player.health = 100
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
-			player.rect.x = 8200
+			player.rect.x = 3000
 		#cutscene1
 		if( player.rect.x >= 3072 and player.rect.x <= 4080):
 			#where the text shows up
@@ -196,11 +197,11 @@ def main():
 
 		#BOOBSSCENE
 		#move the player over
-		#if(player.rect.x >= 6500 and player.rect.x <= 7000):
-			#player.rect.x = 8200
+		if(player.rect.x >= 6000 and player.rect.x <= 7000):
+			player.rect.x = 7300
 
 		#dialogue
-		if(player.rect.x >= 8200 and player.rect.x <= 8400):
+		if(player.rect.x >= 7300 and player.rect.x <= 7500):
 			#where the text shows up
 			textPos = pygame.Rect(player.rect.x, player.rect.y - 500, 0,0)
 			#textbox
