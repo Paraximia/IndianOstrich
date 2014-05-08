@@ -142,7 +142,7 @@ def game():
 	Dialogue("Surya: I promised them music features!", pygame.mixer.Sound("data/lines/suryaLine2.ogg")),
 	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/lines/suryaLine3.ogg")),
 	Dialogue("Surya: We NEED music features!", pygame.mixer.Sound("data/music/shmashup.ogg")),
-	Dialogue("James: These aren't music features!", pygame.mixer.Sound("data/lines/jamesLine1.ogg"))
+	Dialogue("John: Guys, these features suck.", pygame.mixer.Sound("data/lines/johnLine7.ogg"))
 	]
 	scene2Count = 0
 
@@ -274,15 +274,15 @@ def game():
 			elif(player.health > 0):
 				player.health -= 5
 			elif(player.health <= 0):
-				playersprite.sprites()[0].rect.x = 12800
+				playersprite.sprites()[0].rect.x = 12860
 				player.health = 100 
 
 		#debug
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_f):
 			player.rect.x = 11000
-		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
-			player.rect.x = 7300
 		if(event.type == pygame.KEYDOWN and event.key == pygame.K_d):
+			player.rect.x = 7300
+		if(event.type == pygame.KEYDOWN and event.key == pygame.K_s):
 			player.rect.x = 3072
 		#cutscene1
 		if( player.rect.x >= 3072 and player.rect.x <= 4080 and scene1Count < len(scene1Text)):
@@ -395,6 +395,7 @@ def game():
 			screen.blit(text, (textPos.x - camera.x, textPos.y - camera.y))
 		elif( scene3Count == 5 ):
 			player.rect.x = 12800
+			player.health = 100
 			mackleFight = True
 			scene3Count = 6
 
