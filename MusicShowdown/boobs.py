@@ -26,6 +26,9 @@ class Boobs(pygame.sprite.Sprite):
 		self.leftWalk = []
 		self.rightWalk = []
 
+		self.hitLeftWalk = []
+		self.hitRightWalk = []
+
 		self.getClips()
 
 		self.frame = 0
@@ -45,12 +48,19 @@ class Boobs(pygame.sprite.Sprite):
 		if( self.frame >= 4):
 			self.frame = 0
 
-		#check status and change image
-		if( self.status == True ):
+		#check status and hit and change image
+		if( self.status == True and self.hit == 0 ):
 			self.image = self.rightWalk[self.frame]
 			#self.rect = self.image.get_rect()
-		elif( self.status == False ):
+		elif( self.status == False and self.hit == 0 ):
 			self.image = self.leftWalk[self.frame]
+
+		#check status and hit and change image
+		elif( self.status == True and self.hit == 1 ):
+			self.image = self.hitRightWalk[self.frame]
+			#self.rect = self.image.get_rect()
+		elif( self.status == False and self.hit == 1 ):
+			self.image = self.hitLeftWalk[self.frame]
 
 	def move(self):
 		speed = 16
@@ -78,28 +88,54 @@ class Boobs(pygame.sprite.Sprite):
 	def getClips(self):
 		#self.miniH *self.hit will jump the animation to the hit animation
 		#all the rightwalks
-		self.sheet.set_clip( pygame.Rect(0,self.miniH * self.hit, self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect(0,0, self.miniW, self.miniH) )
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
-		self.sheet.set_clip( pygame.Rect( self.miniW,self.miniH * self.hit, self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect( self.miniW,0, self.miniW, self.miniH) )
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
-		self.sheet.set_clip( pygame.Rect( self.miniW*2,self.miniH * self.hit, self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect( self.miniW*2,0, self.miniW, self.miniH) )
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 		
-		self.sheet.set_clip( pygame.Rect( self.miniW*3, self.miniH * self.hit, self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect( self.miniW*3, 0, self.miniW, self.miniH) )
 		self.rightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
 
 		#get all the leftwalks
-		self.sheet.set_clip( pygame.Rect(0, self.miniH + (self.miniH * self.hit), self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect(0, self.miniH, self.miniW, self.miniH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
-		self.sheet.set_clip( pygame.Rect( self.miniW, self.miniH + (self.miniH * self.hit), self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect( self.miniW, self.miniH, self.miniW, self.miniH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 
-		self.sheet.set_clip( pygame.Rect( self.miniW*2, self.miniH + (self.miniH * self.hit), self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect( self.miniW*2, self.miniH, self.miniW, self.miniH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
 		
-		self.sheet.set_clip( pygame.Rect( self.miniW*3, self.miniH + (self.miniH * self.hit), self.miniW, self.miniH) )
+		self.sheet.set_clip( pygame.Rect( self.miniW*3, self.miniH, self.miniW, self.miniH) )
 		self.leftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		#right hitwalks
+		self.sheet.set_clip( pygame.Rect(0,2*self.miniH, self.miniW, self.miniH) )
+		self.hitRightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW,2*self.miniH, self.miniW, self.miniH) )
+		self.hitRightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW*2,2*self.miniH, self.miniW, self.miniH) )
+		self.hitRightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+		
+		self.sheet.set_clip( pygame.Rect( self.miniW*3, 2*self.miniH, self.miniW, self.miniH) )
+		self.hitRightWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		#left hitwalks
+		self.sheet.set_clip( pygame.Rect(0, 3*self.miniH, self.miniW, self.miniH) )
+		self.hitLeftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW, 3*self.miniH, self.miniW, self.miniH) )
+		self.hitLeftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+
+		self.sheet.set_clip( pygame.Rect( self.miniW*2, 3*self.miniH, self.miniW, self.miniH) )
+		self.hitLeftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
+		
+		self.sheet.set_clip( pygame.Rect( self.miniW*3, 3*self.miniH, self.miniW, self.miniH) )
+		self.hitLeftWalk.append( self.sheet.subsurface(self.sheet.get_clip()) )
